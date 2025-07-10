@@ -3,1123 +3,1618 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kannada Quiz - Grade 3</title>
+    <title>3rd Grade English Exam Practice</title>
     <style>
-@import url('https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,100..900;1,100..900&display=swap');
-        :root {
-            --primary: #4ecdc4;
-            --secondary: #23272f;
-            --accent: #ff6b6b;
-            --card-bg: #181a20;
-            --option-bg: #23272f;
-            --option-hover: #31343c;
-            --correct: #27ae60;
-            --incorrect: #e74c3c;
-            --text: #f5f6fa;
-            --muted: #b2becd;
-        }
-        html, body {
-            height: 100%;
-        }
-        body {
-            min-height: 100vh;
-            background: var(--secondary);
-            color: var(--text);
-            font-family: 'Public Sans', 'Segoe UI', Arial, sans-serif;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 0;
-        }
-        .container {
-            background: var(--card-bg);
-            border-radius: 18px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.45);
-            max-width: 700px;
-            width: 100%;
-            padding: 0 0 32px 0;
-            margin: 32px 0;
-            font-family: 'Public Sans', 'Segoe UI', Arial, sans-serif;
-        }
-        .quiz-header {
-            padding: 32px 32px 16px 32px;
-            border-radius: 18px 18px 0 0;
-            background: var(--option-bg);
-            text-align: left;
-        }
-        .quiz-title {
-            font-size: 1.3em;
-            font-weight: 700;
-            margin-bottom: 4px;
-        }
-        .quiz-progress {
-            font-size: 1em;
-            color: var(--muted);
-            margin-bottom: 0;
-        }
-        .progress-bar {
-            width: 100%;
-            height: 6px;
-            background: #2d313a;
-            border-radius: 3px;
-            margin: 16px 0 0 0;
-            overflow: hidden;
-        }
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--primary), var(--accent));
-            width: 0%;
-            transition: width 0.4s cubic-bezier(.4,2,.6,1);
-        }
-        .question-section {
-            padding: 32px 32px 0 32px;
-        }
-        .question-number {
-            font-size: 1.1em;
-            color: var(--primary);
-            font-weight: 600;
-            margin-bottom: 8px;
-        }
-        .question-text {
-            font-size: 1.25em;
-            font-weight: 600;
-            margin-bottom: 24px;
-            color: var(--text);
-        }
-        .options {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-        .option {
-            background: var(--option-bg);
-            border: 2px solid transparent;
-            border-radius: 12px;
-            padding: 18px 20px;
-            font-size: 1.1em;
-            font-weight: 500;
-            color: var(--text);
-            cursor: pointer;
-            transition: all 0.2s cubic-bezier(.4,2,.6,1);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            position: relative;
-            text-align: left;
-        }
-        .option.selected {
-            border-color: var(--primary);
-            background: var(--option-hover);
-        }
-        .option.correct {
-            border-color: var(--correct);
-            background: rgba(39, 174, 96, 0.12);
-            color: var(--correct);
-        }
-        .option.incorrect {
-            border-color: var(--incorrect);
-            background: rgba(231, 76, 60, 0.12);
-            color: var(--incorrect);
-        }
-        .option.disabled {
-            pointer-events: none;
-            opacity: 0.7;
-        }
-        .feedback {
-            margin-top: 20px;
-            padding: 18px 20px;
-            border-radius: 10px;
-            font-weight: 500;
-            font-size: 1.05em;
-            display: none;
-        }
-        .feedback.correct {
-            background: rgba(39, 174, 96, 0.18);
-            color: var(--correct);
-            border: 1.5px solid var(--correct);
-            display: block;
-        }
-        .feedback.incorrect {
-            background: rgba(231, 76, 60, 0.18);
-            color: var(--incorrect);
-            border: 1.5px solid var(--incorrect);
-            display: block;
-        }
-        .nav-buttons {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin: 32px 32px 0 32px;
-            gap: 12px;
-        }
-        .btn {
-            padding: 12px 32px;
-            border: none;
-            border-radius: 24px;
-            font-size: 1.1em;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s cubic-bezier(.4,2,.6,1);
-            background: var(--primary);
-            color: #fff;
-        }
-        .btn.secondary {
-            background: #353945;
-            color: var(--muted);
-        }
-        .btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-        .results {
-            text-align: center;
-            padding: 48px 32px 32px 32px;
-        }
-        .score {
-            font-size: 2.5em;
-            font-weight: bold;
-            color: var(--primary);
-            margin-bottom: 16px;
-        }
-        .score-message {
-            font-size: 1.2em;
-            margin-bottom: 24px;
-            color: var(--text);
-        }
-        .category-breakdown {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 18px;
-            margin-top: 24px;
-        }
-        .category-score {
-            background: var(--option-bg);
-            border-radius: 10px;
-            padding: 16px;
-            border-left: 4px solid var(--primary);
-        }
-        .category-score h3 {
-            color: var(--text);
-            margin-bottom: 8px;
-            font-size: 1.1em;
-        }
-        .category-score p {
-            font-size: 1.1em;
-            font-weight: bold;
-            color: var(--primary);
-        }
-        .restart-btn {
-            background: var(--accent);
-            color: white;
-            margin-top: 32px;
-        }
-        .restart-btn:hover {
-            background: #ff5252;
-        }
-        @media (max-width: 600px) {
-            .container {
-                max-width: 100vw;
-                border-radius: 0;
-                margin: 0;
-            }
-            .quiz-header, .question-section, .results, .nav-buttons {
-                padding-left: 16px;
-                padding-right: 16px;
-            }
-        }
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+:root {
+    --primary: #AECBFA;
+    --header-bg: #181a20;
+    --card-bg: #23272f;
+    --option-bg: #292d36;
+    --option-hover: #31343c;
+    --option-selected: #353945;
+    --option-border: #353945;
+    --text: #f5f6fa;
+    --muted: #b2becd;
+    --border: #353945;
+    --btn-bg: #AECBFA;
+    --btn-text: #23272f;
+    --btn-hover: #8ab4f8;
+    --hint-bg: #23272f;
+    --hint-border: #353945;
+}
+html, body {
+    height: 100%;
+}
+body {
+    min-height: 100vh;
+    background: #181a20;
+    color: var(--text);
+    font-family: "Open Sans", Arial, sans-serif;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 0;
+}
+.header-bar {
+    width: 100%;
+    background: var(--header-bg);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    padding: 0 0 0 0;
+    min-height: 56px;
+    box-sizing: border-box;
+    border-radius: 16px 16px 0 0;
+}
+.header-bar-inner {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 24px;
+    min-height: 56px;
+}
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.header-icon {
+    font-size: 1.3em;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+}
+.header-title {
+    font-size: 1.1em;
+    font-weight: 600;
+    color: var(--text);
+    letter-spacing: 0.01em;
+}
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+.header-action {
+    background: none;
+    border: none;
+    color: var(--muted);
+    font-size: 1.2em;
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 50%;
+    transition: background 0.15s;
+}
+.header-action:hover {
+    background: #23272f;
+}
+.quiz-card {
+    background: var(--card-bg);
+    border-radius: 16px;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.25);
+    max-width: 700px;
+    width: 100%;
+    margin: 32px auto 0 auto;
+    padding: 0 0 0 0;
+    border: 1px solid var(--border);
+    box-sizing: border-box;
+}
+.quiz-content {
+    padding: 32px 32px 0 32px;
+}
+.quiz-progress {
+    font-size: 1em;
+    color: var(--muted);
+    margin-bottom: 0.5em;
+    font-weight: 500;
+}
+.question-text {
+    font-size: 1.18em;
+    font-weight: 600;
+    margin-bottom: 28px;
+    color: var(--text);
+    line-height: 1.5;
+}
+.options {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 32px;
+}
+.option {
+    background: var(--option-bg);
+    border: 1.5px solid var(--option-border);
+    border-radius: 12px;
+    padding: 18px 24px;
+    font-size: 1.08em;
+    font-weight: 500;
+    color: var(--text);
+    cursor: pointer;
+    transition: background 0.18s, border 0.18s;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    text-align: left;
+    min-height: 48px;
+}
+.option-label {
+    font-weight: 700;
+    font-size: 1.1em;
+    color: var(--muted);
+    min-width: 28px;
+    display: inline-block;
+}
+.option.selected {
+    background: var(--option-selected);
+    border-color: var(--primary);
+}
+.option.correct {
+    background: #263e2e;
+    border-color: #27ae60;
+    color: #27ae60;
+}
+.option.incorrect {
+    background: #3a2323;
+    border-color: #e74c3c;
+    color: #e74c3c;
+}
+.option:hover:not(.disabled):not(.selected) {
+    background: var(--option-hover);
+    border-color: var(--primary);
+}
+.option.disabled {
+    pointer-events: none;
+    opacity: 0.7;
+}
+.hint-row {
+    margin: 0 0 32px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--muted);
+    font-size: 1em;
+    font-weight: 500;
+    cursor: pointer;
+    user-select: none;
+}
+.hint-arrow {
+    font-size: 1.1em;
+    transition: transform 0.2s;
+    display: inline-block;
+}
+.hint-content {
+    display: none;
+    background: var(--hint-bg);
+    border: 1px solid var(--hint-border);
+    border-radius: 8px;
+    padding: 16px;
+    color: var(--muted);
+    font-size: 0.98em;
+    margin-bottom: 16px;
+}
+.hint-row.open .hint-arrow {
+    transform: rotate(180deg);
+}
+.hint-row.open + .hint-content {
+    display: block;
+}
+.next-row {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin: 0 0 32px 0;
+}
+.btn {
+    padding: 12px 36px;
+    border: none;
+    border-radius: 24px;
+    font-size: 1.1em;
+    font-weight: 600;
+    cursor: pointer;
+    background: var(--btn-bg);
+    color: var(--btn-text);
+    transition: background 0.18s;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+}
+.btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+.btn:hover:not(:disabled) {
+    background: var(--btn-hover);
+}
+.passage-box {
+  background: #23272f;
+  border: 1px solid #353945;
+  border-radius: 10px;
+  padding: 18px 20px;
+  margin-bottom: 28px;
+  color: #e0e3ea;
+  font-size: 1.05em;
+  line-height: 1.6;
+  white-space: pre-line;
+}
+.result-header {
+  font-size: 1.5em;
+  font-weight: 600;
+  margin-bottom: 32px;
+  text-align: left;
+}
+.result-cards {
+  display: flex;
+  gap: 24px;
+  margin-bottom: 36px;
+  flex-wrap: wrap;
+}
+.result-card {
+  background: #23272f;
+  border-radius: 18px;
+  padding: 28px 36px 20px 36px;
+  min-width: 140px;
+  text-align: center;
+  box-shadow: 0 1px 8px rgba(0,0,0,0.08);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1 1 0;
+}
+.result-card .result-value {
+  font-size: 2.1em;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 8px;
+}
+.result-card .result-label {
+  font-size: 1.1em;
+  color: var(--muted);
+  font-weight: 500;
+}
+.result-card .result-sub {
+  font-size: 1.1em;
+  color: var(--muted);
+  font-weight: 500;
+  margin-top: 8px;
+}
+.result-section-title {
+  font-size: 1.15em;
+  font-weight: 700;
+  margin: 36px 0 12px 0;
+  color: var(--text);
+}
+.result-list {
+  margin: 0 0 0 18px;
+  padding: 0;
+  color: var(--text);
+}
+.result-list li {
+  margin-bottom: 16px;
+  font-size: 1.08em;
+  line-height: 1.6;
+}
+.result-btn-row {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+@media (max-width: 600px) {
+    .quiz-card {
+        max-width: 100vw;
+        border-radius: 0;
+        margin: 0;
+    }
+    .quiz-content {
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+    .header-bar-inner {
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+}
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="quiz-header">
-            <div class="quiz-title">Kannada Quiz - Grade 3</div>
-            <div class="quiz-progress" id="quizProgress">Question 1/105</div>
-            <div class="progress-bar">
-                <div class="progress-fill" id="progressFill"></div>
-            </div>
-            <div class="score-realtime" id="scoreRealtime" style="text-align:right; font-size:1.1em; margin-top:8px;">
-              Score: 0/0 (0%)
-            </div>
-        </div>
-        <div id="quizMain">
-            <div class="question-section" id="questionSection">
-                <!-- Question and options will be rendered here -->
-            </div>
-            <div class="nav-buttons">
-                <button class="btn secondary" id="prevBtn">Back</button>
-                <button class="btn" id="nextBtn">Next</button>
+    <div class="quiz-card">
+        <div class="header-bar">
+            <div class="header-bar-inner">
+                <div class="header-left">
+                    <span class="header-icon" title="Quiz"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h18"/></svg></span>
+                    <span class="header-title">3rd Grade English Exam Practice</span>
+                </div>
+                <div class="header-right">
+                    <button class="header-action" title="Share"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.59 13.51l6.83 3.98"/><path d="M15.41 6.51l-6.82 3.98"/></svg></button>
+                    <button class="header-action" title="Close"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+                </div>
             </div>
         </div>
-        <div id="results" class="results" style="display:none;">
-            <div class="score" id="finalScore"></div>
-            <div class="score-message" id="scoreMessage"></div>
-            <div class="category-breakdown" id="categoryBreakdown"></div>
-            <button class="btn restart-btn" id="restartBtn">Try Again! 🎯</button>
+        <div class="quiz-content" id="quizContent">
+            <!-- Quiz content will be rendered here -->
         </div>
     </div>
     <script>
-        // Quiz questions data
-        const questions = [
-            // Gunitakshara Questions (25 questions)
-            {
-    category: "Gunitakshara",
-    question: "What is the result of ಕ್ + ಆ?",
-    options: ['ಕ', 'ಕಾ', 'ಕಿ', 'ಕು'],
+// Quiz questions data
+const questions = [
+  // Similes Questions (25 total - Easy to Olympiad level)
+  {
+    category: "Similes",
+    difficulty: "Easy",
+    question: "As busy as a ________.",
+    options: ["cat", "bee", "cow", "snake"],
     correct: 1
   },
   {
-    category: "Gunitakshara",
-    question: "Which vowel symbol is used to form 'ಕು'?",
-    options: ['ಾ', 'ು', 'ಿ', 'ೆ'],
-    correct: 1
-  },
-  {
-    category: "Gunitakshara",
-    question: "What is the transliteration for 'ಗೀ'?",
-    options: ['gi', 'gu', 'gee', 'ga'],
+    category: "Similes",
+    difficulty: "Easy",
+    question: "She is as gentle as a ______________.",
+    options: ["lion", "storm", "lamb", "bear"],
     correct: 2
   },
   {
-    category: "Gunitakshara",
-    question: "What is the result of ಕ್ + ಇ?",
-    options: ['ಕಿ', 'ಕೆ', 'ಕ', 'ಕು'],
-    correct: 0
-  },
-  {
-    category: "Gunitakshara",
-    question: "What is the result of ಗ್ + ಊ?",
-    options: ['ಗೂ', 'ಗೆ', 'ಗಿ', 'ಗಾ'],
-    correct: 0
-  },
-  {
-    category: "Gunitakshara",
-    question: "What is the vowel symbol used to form 'ಕೀ'?",
-    options: ['ಾ', 'ೀ', 'ೆ', 'ು'],
+    category: "Similes",
+    difficulty: "Easy",
+    question: "He ran as fast as ____________.",
+    options: ["a snail", "lightning", "a turtle", "a feather"],
     correct: 1
   },
   {
-    category: "Gunitakshara",
-    question: "Which of these means 'ಕೃ'?",
-    options: ['ಕ್ + ಋ', 'ಕ್ + ಇ', 'ಕ್ + ಅಂ', 'ಕ್ + ಎ'],
-    correct: 0
-  },
-  {
-    category: "Gunitakshara",
-    question: "Which Guṇitākṣara is formed from ನ್ + ಎ?",
-    options: ['ನಿ', 'ನ', 'ನೆ', 'ನು'],
-    correct: 2
-  },
-  {
-    category: "Gunitakshara",
-    question: "What do you get when you combine ತ್ + ಓ?",
-    options: ['ತೂ', 'ತೋ', 'ತಾ', 'ತೆ'],
+    category: "Similes",
+    difficulty: "Easy",
+    question: "The water was as cold as ____________.",
+    options: ["fire", "ice", "sun", "wind"],
     correct: 1
   },
   {
-    category: "Gunitakshara",
-    question: "Which symbol represents the vowel for 'ಹಾ'?",
-    options: ['ಾ', 'ಿ', 'ಾಂ', 'ೋ'],
-    correct: 0
-  },
-  {
-    category: "Gunitakshara",
-    question: "What is the result of ಬ್ + ಅಂ?",
-    options: ['ಬು', 'ಬಾ', 'ಬಂ', 'ಬೆ'],
-    correct: 2
-  },
-  {
-    category: "Gunitakshara",
-    question: "What does 'ಮೆ' represent?",
-    options: ['ಮ್ + ಅ', 'ಮ್ + ಎ', 'ಮ್ + ಇ', 'ಮ್ + ಊ'],
+    category: "Similes",
+    difficulty: "Easy",
+    question: "My grandmother is as wise as an ____________.",
+    options: ["ant", "owl", "elephant", "eagle"],
     correct: 1
   },
   {
-    category: "Gunitakshara",
-    question: "What is the transliteration for 'ರೋ'?",
-    options: ['ra', 'ri', 'roo', 'ro'],
+    category: "Similes",
+    difficulty: "Moderate",
+    question: "Complete the simile: 'The stars twinkled like ____________.'",
+    options: ["rocks", "diamonds", "mud", "leaves"],
+    correct: 1
+  },
+  {
+    category: "Similes",
+    difficulty: "Moderate",
+    question: "Which simile best describes someone who is very quiet?",
+    options: ["as loud as thunder", "as quiet as a mouse", "as bright as the sun", "as heavy as a rock"],
+    correct: 1
+  },
+  {
+    category: "Similes",
+    difficulty: "Moderate",
+    question: "The pillow was as soft as ____________.",
+    options: ["stone", "cotton", "glass", "metal"],
+    correct: 1
+  },
+  {
+    category: "Similes",
+    difficulty: "Moderate",
+    question: "His voice was as deep as ____________.",
+    options: ["a whisper", "the ocean", "a bird", "a bell"],
+    correct: 1
+  },
+  {
+    category: "Similes",
+    difficulty: "Moderate",
+    question: "The cake was as sweet as ____________.",
+    options: ["lemon", "honey", "salt", "pepper"],
+    correct: 1
+  },
+  {
+    category: "Similes",
+    difficulty: "Difficult",
+    question: "Which sentence uses a simile correctly?",
+    options: [
+      "The mountain is tall like a giant.",
+      "The mountain is as tall as a giant.",
+      "The mountain is tall giant.",
+      "The mountain tall as giant."
+    ],
+    correct: 1
+  },
+  {
+    category: "Similes",
+    difficulty: "Difficult",
+    question: "Identify the simile in: 'The dancer moved gracefully across the stage like a swan gliding on water.'",
+    options: ["moved gracefully", "like a swan gliding on water", "across the stage", "dancer moved"],
+    correct: 1
+  },
+  {
+    category: "Similes",
+    difficulty: "Difficult",
+    question: "Complete with the most creative simile: 'The old book's pages were as yellow as ____________.'",
+    options: ["butter", "autumn leaves", "the sun", "gold coins"],
+    correct: 1
+  },
+  {
+    category: "Similes",
+    difficulty: "Difficult",
+    question: "Which simile shows the best contrast?",
+    options: [
+      "as dark as night",
+      "as light as a feather and as heavy as lead",
+      "as red as roses",
+      "as blue as the sky"
+    ],
+    correct: 1
+  },
+  {
+    category: "Similes",
+    difficulty: "Difficult",
+    question: "The fog rolled in like ____________.",
+    options: ["a carpet", "a blanket", "a ghost", "all of the above"],
     correct: 3
   },
   {
-    category: "Gunitakshara",
-    question: "Which of the following is a combination of ದ್ + ಈ?",
-    options: ['ದು', 'ದೀ', 'ದೇ', 'ದಿ'],
+    category: "Similes",
+    difficulty: "Very Difficult",
+    question: "Which sentence does NOT contain a simile?",
+    options: [
+      "Her smile was as bright as sunshine.",
+      "The cat pounced like a tiger.",
+      "The flowers bloomed beautifully.",
+      "His words cut like a knife."
+    ],
+    correct: 2
+  },
+  {
+    category: "Similes",
+    difficulty: "Very Difficult",
+    question: "Create a simile: 'The student's mind was as sharp as ____________.'",
+    options: ["a pencil", "a razor", "a tack", "all of the above"],
+    correct: 3
+  },
+  {
+    category: "Similes",
+    difficulty: "Very Difficult",
+    question: "Which simile is most original for describing rain?",
+    options: [
+      "like cats and dogs",
+      "like nature's tears",
+      "like water",
+      "like drops"
+    ],
     correct: 1
   },
   {
-    category: "Gunitakshara",
-    question: "Which is formed by ಜ್ + ಐ?",
-    options: ['ಜೈ', 'ಜಾ', 'ಜೆ', 'ಜೌ'],
+    category: "Similes",
+    difficulty: "Very Difficult",
+    question: "The complexity of the puzzle was like ____________.",
+    options: ["a maze within a maze", "a simple game", "easy work", "child's play"],
     correct: 0
   },
   {
-    category: "Gunitakshara",
-    question: "What is the result of ಸ್ + ಊ?",
-    options: ['ಸು', 'ಸೂ', 'ಸಾ', 'ಸಿ'],
+    category: "Similes",
+    difficulty: "Very Difficult",
+    question: "Which sentence uses a simile to show time passing?",
+    options: [
+      "Time is money.",
+      "Time flies like an arrow.",
+      "Time heals all wounds.",
+      "Time is running out."
+    ],
     correct: 1
   },
   {
-    category: "Gunitakshara",
-    question: "Which Guṇitākṣara comes from ಲ್ + ಉ?",
-    options: ['ಲ', 'ಲು', 'ಲಿ', 'ಲೂ'],
+    category: "Similes",
+    difficulty: "Tricky",
+    question: "In 'Life is like a box of chocolates,' what makes this a simile?",
+    options: ["The word 'life'", "The word 'like'", "The word 'box'", "The word 'chocolates'"],
     correct: 1
   },
   {
-    category: "Gunitakshara",
-    question: "Which vowel symbol is used in 'ಟಿ'?",
-    options: ['ಿ', 'ು', 'ಾ', 'ೆ'],
-    correct: 0
-  },
-  {
-    category: "Gunitakshara",
-    question: "Transliteration of 'ಬೇ' is:",
-    options: ['bee', 'be', 'bai', 'boo'],
+    category: "Similes",
+    difficulty: "Tricky",
+    question: "Which is the hidden simile? 'The classroom buzzed with activity.'",
+    options: [
+      "There is no simile",
+      "Like a beehive (implied)",
+      "Like a classroom",
+      "Like activity"
+    ],
     correct: 1
   },
   {
-    category: "Gunitakshara",
-    question: "How is 'ತು' formed?",
-    options: ['ತ್ + ಉ', 'ತ್ + ಊ', 'ತ್ + ಅ', 'ತ್ + ಎ'],
+    category: "Similes",
+    difficulty: "Tricky",
+    question: "Convert to a simile: 'The warrior was brave.'",
+    options: [
+      "The warrior was as brave as a lion.",
+      "The warrior was brave like brave.",
+      "The warrior was very brave.",
+      "The brave warrior."
+    ],
     correct: 0
   },
   {
-    category: "Gunitakshara",
-    question: "What is the vowel symbol used for 'ಎ'?",
-    options: ['ೆ', 'ಾ', 'ಿ', 'ೀ'],
-    correct: 0
-  },
-  {
-    category: "Gunitakshara",
-    question: "Which one represents 'ದೆ'?",
-    options: ['ದ್ + ಇ', 'ದ್ + ಎ', 'ದ್ + ಉ', 'ದ್ + ಓ'],
+    category: "Similes",
+    difficulty: "Olympiad",
+    question: "Which sentence contains a double simile?",
+    options: [
+      "She was as pretty as a picture.",
+      "He was as sly as a fox and as quiet as a mouse.",
+      "The dog was playful.",
+      "The tree was tall like a tower."
+    ],
     correct: 1
   },
   {
-    category: "Gunitakshara",
-    question: "Choose the correct Guṇitākṣara for 'ನ್ + ಐ'",
-    options: ['ನೇ', 'ನೈ', 'ನೀ', 'ನೌ'],
+    category: "Similes",
+    difficulty: "Olympiad",
+    question: "Identify the most sophisticated simile for 'The library was quiet.'",
+    options: [
+      "as quiet as a mouse",
+      "like a tomb where whispers dare not venture",
+      "very quiet",
+      "quiet like quiet"
+    ],
+    correct: 1
+  },
+
+  // Pronouns Questions (25 total)
+  {
+    category: "Pronouns",
+    difficulty: "Easy",
+    question: "John is a boy. ______ likes to play cricket.",
+    options: ["He", "She", "It", "They"],
+    correct: 0
+  },
+  {
+    category: "Pronouns",
+    difficulty: "Easy",
+    question: "Sara and I are going to the market. ______ will buy fruits.",
+    options: ["They", "We", "Us", "Them"],
     correct: 1
   },
   {
-    category: "Gunitakshara",
-    question: "What is the correct Kannada letter for 'ru'?",
-    options: ['ರು', 'ರಾ', 'ರಿ', 'ರೆ'],
+    category: "Pronouns",
+    difficulty: "Easy",
+    question: "The cat is sleeping. ______ is very tired.",
+    options: ["He", "She", "It", "They"],
+    correct: 2
+  },
+  {
+    category: "Pronouns",
+    difficulty: "Easy",
+    question: "My mother gave ______ a new book.",
+    options: ["I", "me", "my", "mine"],
+    correct: 1
+  },
+  {
+    category: "Pronouns",
+    difficulty: "Easy",
+    question: "The children are playing. ______ are having fun.",
+    options: ["He", "She", "It", "They"],
+    correct: 3
+  },
+  {
+    category: "Pronouns",
+    difficulty: "Moderate",
+    question: "This book belongs to Tom. It is ______.",
+    options: ["he", "him", "his", "himself"],
+    correct: 2
+  },
+  {
+    category: "Pronouns",
+    difficulty: "Moderate",
+    question: "______ are you going to the party with?",
+    options: ["Who", "Whom", "Whose", "Which"],
     correct: 0
   },
   {
-    category: "Gunitakshara",
-    question: "Which symbol represents the vowel for 'ಊ'?",
-    options: ['ೂ', 'ು', 'ೋ', 'ಾ'],
+    category: "Pronouns",
+    difficulty: "Moderate",
+    question: "The teacher asked ______ to complete the homework.",
+    options: ["we", "us", "our", "ours"],
+    correct: 1
+  },
+  {
+    category: "Pronouns",
+    difficulty: "Moderate",
+    question: "______ car is parked outside?",
+    options: ["Who", "Whom", "Whose", "Which"],
+    correct: 2
+  },
+  {
+    category: "Pronouns",
+    difficulty: "Moderate",
+    question: "Between you and ______, this is a secret.",
+    options: ["I", "me", "my", "mine"],
+    correct: 1
+  },
+  {
+    category: "Pronouns",
+    difficulty: "Difficult",
+    question: "Each of the students brought ______ own lunch.",
+    options: ["his", "her", "their", "his or her"],
+    correct: 3
+  },
+  {
+    category: "Pronouns",
+    difficulty: "Difficult",
+    question: "The dog chased ______ tail in circles.",
+    options: ["it's", "its", "it", "itself"],
+    correct: 1
+  },
+  {
+    category: "Pronouns",
+    difficulty: "Difficult",
+    question: "______ of the two girls is taller?",
+    options: ["Who", "Which", "Whose", "Whom"],
+    correct: 1
+  },
+  {
+    category: "Pronouns",
+    difficulty: "Difficult",
+    question: "The responsibility is ______ alone.",
+    options: ["her", "hers", "she", "herself"],
+    correct: 1
+  },
+  {
+    category: "Pronouns",
+    difficulty: "Difficult",
+    question: "______ did you give the message to?",
+    options: ["Who", "Whom", "Whose", "Which"],
+    correct: 1
+  },
+  {
+    category: "Pronouns",
+    difficulty: "Very Difficult",
+    question: "The committee decided among ______ to choose the best proposal.",
+    options: ["themselves", "themself", "them", "they"],
     correct: 0
   },
+  {
+    category: "Pronouns",
+    difficulty: "Very Difficult",
+    question: "Neither of the boys brought ______ permission slip.",
+    options: ["his", "their", "his or her", "theirs"],
+    correct: 0
+  },
+  {
+    category: "Pronouns",
+    difficulty: "Very Difficult",
+    question: "The one ______ arrives first wins the prize.",
+    options: ["who", "whom", "whose", "which"],
+    correct: 0
+  },
+  {
+    category: "Pronouns",
+    difficulty: "Very Difficult",
+    question: "______ ever thought this would happen?",
+    options: ["Who", "Whom", "Whoever", "Whomever"],
+    correct: 2
+  },
+  {
+    category: "Pronouns",
+    difficulty: "Very Difficult",
+    question: "The cat groomed ______ carefully.",
+    options: ["itself", "it", "its", "it's"],
+    correct: 0
+  },
+  {
+    category: "Pronouns",
+    difficulty: "Tricky",
+    question: "My friend and ______ went to the movies.",
+    options: ["I", "me", "my", "mine"],
+    correct: 0
+  },
+  {
+    category: "Pronouns",
+    difficulty: "Tricky",
+    question: "Give the book to my sister and ______.",
+    options: ["I", "me", "my", "mine"],
+    correct: 1
+  },
+  {
+    category: "Pronouns",
+    difficulty: "Tricky",
+    question: "______ wants ice cream may have some.",
+    options: ["Who", "Whom", "Whoever", "Whomever"],
+    correct: 2
+  },
+  {
+    category: "Pronouns",
+    difficulty: "Olympiad",
+    question: "In 'The student who studies hard will succeed,' 'who' is a ______ pronoun.",
+    options: ["personal", "possessive", "relative", "reflexive"],
+    correct: 2
+  },
+  {
+    category: "Pronouns",
+    difficulty: "Olympiad",
+    question: "Identify the antecedent of 'their' in: 'The students forgot their books.'",
+    options: ["forgot", "books", "students", "the"],
+    correct: 2
+  },
 
-            // Ottaksharagalu Questions (25 questions)
-       // Ottakshara Questions (25 questions)
-{
-  category: "Ottakshara",
-  question: "What is the result of ನ್ + ನ್?",
-  options: ['ನ್ನ', 'ನ', 'ನನು', 'ನಃ'],
-  correct: 0
-},
-{
-  category: "Ottakshara",
-  question: "Which of the following has an ottakshara?",
-  options: ['ಅಮ್ಮ', 'ಅಕು', 'ಅನು', 'ಅತಿ'],
-  correct: 0
-},
-{
-  category: "Ottakshara",
-  question: "Choose the word with the ottakshara ‘ಕ್ಕ’:",
-  options: ['ಕವಿ', 'ಹಕ್ಕಿ', 'ಕುಡಿಗೆ', 'ನದಿ'],
-  correct: 1
-},
-{
-  category: "Ottakshara",
-  question: "What is the result of ಜ್ + ಜ್?",
-  options: ['ಜ', 'ಜಾ', 'ಜ್ಜ', 'ಜು'],
-  correct: 2
-},
-{
-  category: "Ottakshara",
-  question: "How is the word ಅಜ್ಜ split?",
-  options: ['ಅ + ಜ್ + ಜ್ + ಅ', 'ಅ + ಜ + ಜ', 'ಅ + ಜ್', 'ಅ + ಜ'],
-  correct: 0
-},
-{
-  category: "Ottakshara",
-  question: "Which of these words has the ottakshara ‘ತ್ತ’?",
-  options: ['ಬಿಟ್ಟ', 'ತಲಿ', 'ನದಿ', 'ಮನೆ'],
-  correct: 0
-},
-{
-  category: "Ottakshara",
-  question: "What is the result of ಪ್ + ಪ್?",
-  options: ['ಪ್ಪ', 'ಪಪ', 'ಪಾ', 'ಪ'],
-  correct: 0
-},
-{
-  category: "Ottakshara",
-  question: "Select the word with ottakshara ‘ಮ್ಮ’:",
-  options: ['ಅಮ್ಮ', 'ಅನು', 'ಅಕ್ಕ', 'ಅಪ್ಪ'],
-  correct: 0
-},
-{
-  category: "Ottakshara",
-  question: "What is the result of ಯ್ + ಯ್?",
-  options: ['ಯ್ಯ', 'ಯಯ', 'ಯಾ', 'ಯ'],
-  correct: 0
-},
-{
-  category: "Ottakshara",
-  question: "Find the ottakshara in the word ಹಗ್ಗ:",
-  options: ['ಗ್ಗ', 'ಗ್ಗಾ', 'ಗ', 'ಗಾ'],
-  correct: 0
-},
-{
-  category: "Ottakshara",
-  question: "What do you get when you combine ಶ್ + ರ?",
-  options: ['ಶ್ರ', 'ಶರ್', 'ಸ್ರ', 'ಶರ'],
-  correct: 0
-},
-{
-  category: "Ottakshara",
-  question: "Which word contains ‘ಪ್ಟ’?",
-  options: ['ಹೆಟ್ಟ', 'ಪಟಟ', 'ಪಟ್ಟು', 'ಪಟಿ'],
-  correct: 2
-},
-{
-  category: "Ottakshara",
-  question: "What is the result of ಣ್ + ಣ್?",
-  options: ['ಣ್ಣ', 'ಣಣ', 'ಣ', 'ಣಾ'],
-  correct: 0
-},
-{
-  category: "Ottakshara",
-  question: "How is the word ಅಕ್ಕ split?",
-  options: ['ಅ + ಕ್ + ಕ್ + ಅ', 'ಅ + ಕ್ + ಕ್', 'ಅ + ಕಾ', 'ಅ + ಕ'],
-  correct: 1
-},
-{
-  category: "Ottakshara",
-  question: "Which ottakshara is found in the word ತಕ್ಕಳು?",
-  options: ['ಕ್ಕ', 'ಕ್ಕಾ', 'ಕ', 'ಕ್ಕು'],
-  correct: 0
-},
-{
-  category: "Ottakshara",
-  question: "Choose the word with ‘ಬ್ಬ’:",
-  options: ['ಬೆಬ್ಬ', 'ಬಬ್ಬು', 'ಉಬ್ಬ', 'ಬುಬ್ಬ'],
-  correct: 2
-},
-{
-  category: "Ottakshara",
-  question: "What is the ottakshara in the word ಮುತ್ತು?",
-  options: ['ತ್ತ', 'ತ್ತಿ', 'ತತು', 'ತು'],
-  correct: 0
-},
-{
-  category: "Ottakshara",
-  question: "Which of these words contains the ottakshara ‘ಚ್ಚ’?",
-  options: ['ಚೆಚ್ಚು', 'ಚೆಚು', 'ಚೇಚು', 'ಚಚ'],
-  correct: 0
-},
-{
-  category: "Ottakshara",
-  question: "What is formed by combining ತ್ + ತ್?",
-  options: ['ತ್ತ', 'ತತ', 'ತ', 'ತಾ'],
-  correct: 0
-},
-{
-  category: "Ottakshara",
-  question: "Which of these does **not** have an ottakshara?",
-  options: ['ಅಜ್ಜಿ', 'ಅತ್ತೆ', 'ಅವಿ', 'ಅಕ್ಕ'],
-  correct: 2
-},
-{
-  category: "Ottakshara",
-  question: "Choose the word with the ottakshara ‘ಗ್ಗ’:",
-  options: ['ಹಗ್ಗ', 'ಹಗಗು', 'ಹಗಿ', 'ಹಾಗ'],
-  correct: 0
-},
-{
-  category: "Ottakshara",
-  question: "Split the word ಅಜ್ಜಿ:",
-  options: ['ಅ + ಜ್ + ಜಿ', 'ಅ + ಜ + ಜಿ', 'ಅ + ಜ್ + ಜ್ + ಇ', 'ಅ + ಜ್ + ಜ್ + ಇ'],
-  correct: 3
-},
-{
-  category: "Ottakshara",
-  question: "Which ottakshara is used in the word ಉಡ್ಡಯಾನ?",
-  options: ['ಡ್ಡ', 'ಡಡ', 'ಡ್ಡಾ', 'ಡ'],
-  correct: 0
-},
-{
-  category: "Ottakshara",
-  question: "What is the result of ಮ್ + ಮ್?",
-  options: ['ಮ್ಮ', 'ಮ', 'ಮಮ', 'ಮಾ'],
-  correct: 0
-},
-{
-  category: "Ottakshara",
-  question: "Choose the word that contains ottakshara ‘ಶ್ರ’:",
-  options: ['ಶ್ರದ್ಧೆ', 'ಶರದ', 'ಶೂರ', 'ಶೀಲ'],
-  correct: 0
-},
+  // Articles Questions (25 total)
+  {
+    category: "Articles",
+    difficulty: "Easy",
+    question: "I bought ___ apple and ___ banana from ___ market.",
+    options: ["an, a, the", "a, a, the", "an, the, a", "the, an, a"],
+    correct: 0
+  },
+  {
+    category: "Articles",
+    difficulty: "Easy",
+    question: "_____ sun rises in _____ east.",
+    options: ["A, a", "An, an", "The, the", "A, the"],
+    correct: 2
+  },
+  {
+    category: "Articles",
+    difficulty: "Easy",
+    question: "She has _____ dog and _____ cat.",
+    options: ["a, a", "an, an", "a, an", "the, the"],
+    correct: 0
+  },
+  {
+    category: "Articles",
+    difficulty: "Easy",
+    question: "I need _____ umbrella because it's raining.",
+    options: ["a", "an", "the", "no article"],
+    correct: 1
+  },
+  {
+    category: "Articles",
+    difficulty: "Easy",
+    question: "_____ elephant is _____ large animal.",
+    options: ["A, a", "An, a", "The, the", "An, an"],
+    correct: 1
+  },
+  {
+    category: "Articles",
+    difficulty: "Moderate",
+    question: "_____ Himalayas are _____ highest mountain range in _____ world.",
+    options: ["A, a, a", "The, the, the", "An, an, an", "The, a, the"],
+    correct: 1
+  },
+  {
+    category: "Articles",
+    difficulty: "Moderate",
+    question: "She is _____ honest person and _____ good friend.",
+    options: ["a, a", "an, a", "a, an", "an, an"],
+    correct: 1
+  },
+  {
+    category: "Articles",
+    difficulty: "Moderate",
+    question: "_____ book you gave me was very interesting.",
+    options: ["A", "An", "The", "No article"],
+    correct: 2
+  },
+  {
+    category: "Articles",
+    difficulty: "Moderate",
+    question: "I want to become _____ engineer when I grow up.",
+    options: ["a", "an", "the", "no article"],
+    correct: 1
+  },
+  {
+    category: "Articles",
+    difficulty: "Moderate",
+    question: "_____ United States is _____ big country.",
+    options: ["A, a", "The, a", "An, a", "The, the"],
+    correct: 1
+  },
+  {
+    category: "Articles",
+    difficulty: "Difficult",
+    question: "He plays _____ piano and _____ guitar.",
+    options: ["a, a", "the, the", "a, the", "the, a"],
+    correct: 1
+  },
+  {
+    category: "Articles",
+    difficulty: "Difficult",
+    question: "_____ rich should help _____ poor.",
+    options: ["A, a", "The, the", "An, an", "No article, no article"],
+    correct: 1
+  },
+  {
+    category: "Articles",
+    difficulty: "Difficult",
+    question: "She goes to _____ school by _____ bus.",
+    options: ["a, a", "the, the", "no article, no article", "a, no article"],
+    correct: 2
+  },
+  {
+    category: "Articles",
+    difficulty: "Difficult",
+    question: "_____ Amazon is _____ longest river in _____ South America.",
+    options: ["A, a, no article", "The, the, no article", "An, the, the", "The, a, no article"],
+    correct: 1
+  },
+  {
+    category: "Articles",
+    difficulty: "Difficult",
+    question: "I had _____ breakfast at _____ hotel.",
+    options: ["a, a", "no article, the", "the, a", "a, the"],
+    correct: 1
+  },
+  {
+    category: "Articles",
+    difficulty: "Very Difficult",
+    question: "_____ English is spoken in _____ England, _____ United States, and _____ Australia.",
+    options: ["The, the, the, the", "No article, no article, the, no article", "The, no article, the, no article", "No article, the, the, the"],
+    correct: 1
+  },
+  {
+    category: "Articles",
+    difficulty: "Very Difficult",
+    question: "He is _____ European but she is _____ American.",
+    options: ["a, a", "an, an", "a, an", "an, a"],
+    correct: 2
+  },
+  {
+    category: "Articles",
+    difficulty: "Very Difficult",
+    question: "_____ honesty is _____ best policy.",
+    options: ["A, a", "The, the", "An, an", "No article, the"],
+    correct: 3
+  },
+  {
+    category: "Articles",
+    difficulty: "Very Difficult",
+    question: "We went to _____ church on _____ Sunday.",
+    options: ["a, a", "the, the", "no article, no article", "the, no article"],
+    correct: 2
+  },
+  {
+    category: "Articles",
+    difficulty: "Very Difficult",
+    question: "_____ Mount Everest is in _____ Nepal.",
+    options: ["A, a", "The, the", "No article, no article", "The, no article"],
+    correct: 2
+  },
+  {
+    category: "Articles",
+    difficulty: "Tricky",
+    question: "I'm reading _____ book about _____ boy who found _____ treasure.",
+    options: ["a, a, a", "a, a, the", "the, a, a", "a, the, a"],
+    correct: 0
+  },
+  {
+    category: "Articles",
+    difficulty: "Tricky",
+    question: "_____ hour has sixty minutes.",
+    options: ["A", "An", "The", "No article"],
+    correct: 1
+  },
+  {
+    category: "Articles",
+    difficulty: "Tricky",
+    question: "She is _____ university student studying _____ history.",
+    options: ["a, a", "an, an", "a, no article", "an, no article"],
+    correct: 2
+  },
+  {
+    category: "Articles",
+    difficulty: "Olympiad",
+    question: "Which sentence is correct?",
+    options: [
+      "The life is beautiful.",
+      "Life is beautiful.",
+      "A life is beautiful.",
+      "An life is beautiful."
+    ],
+    correct: 1
+  },
+  {
+    category: "Articles",
+    difficulty: "Olympiad",
+    question: "In '_____ owl hooted in _____ darkness,' which articles fit best?",
+    options: ["A, a", "An, the", "The, a", "A, the"],
+    correct: 1
+  },
 
+  // Punctuation Questions (25 total)
+  {
+    category: "Punctuation",
+    difficulty: "Easy",
+    question: "Choose the correctly punctuated sentence: 'Wow What a beautiful flower'",
+    options: [
+      "Wow, what a beautiful flower.",
+      "Wow! What a beautiful flower!",
+      "Wow? What a beautiful flower!",
+      "Wow! What a beautiful flower."
+    ],
+    correct: 1
+  },
+  {
+    category: "Punctuation",
+    difficulty: "Easy",
+    question: "Which punctuation mark goes at the end of a question?",
+    options: [".", "!", "?", ","],
+    correct: 2
+  },
+  {
+    category: "Punctuation",
+    difficulty: "Easy",
+    question: "Add the missing punctuation: 'My name is John'",
+    options: [
+      "My name is John.",
+      "My name is John!",
+      "My name is John?",
+      "My name is John,"
+    ],
+    correct: 0
+  },
+  {
+    category: "Punctuation",
+    difficulty: "Easy",
+    question: "Which sentence needs an exclamation mark?",
+    options: [
+      "Where are you going",
+      "I love ice cream",
+      "Help me",
+      "The cat is sleeping"
+    ],
+    correct: 2
+  },
+  {
+    category: "Punctuation",
+    difficulty: "Easy",
+    question: "What punctuation separates items in a list?",
+    options: [".", "!", "?", ","],
+    correct: 3
+  },
+  {
+    category: "Punctuation",
+    difficulty: "Moderate",
+    question: "Fix the punctuation: 'my sister who is five years old loves ice cream'",
+    options: [
+      "My sister who is five years old loves ice cream.",
+      "My sister who is five years old, loves ice cream.",
+      "My sister, who is five years old, loves ice cream.",
+      "My sister who is five years old loves ice cream!"
+    ],
+    correct: 2
+  },
+  {
+    category: "Punctuation",
+    difficulty: "Moderate",
+    question: "Which sentence uses commas correctly?",
+    options: [
+      "I need, bread milk, and eggs.",
+      "I need bread, milk, and eggs.",
+      "I need bread milk, and, eggs.",
+      "I need bread, milk and, eggs."
+    ],
+    correct: 1
+  },
+  {
+    category: "Punctuation",
+    difficulty: "Moderate",
+    question: "Add the missing punctuation: 'Stop dont go there'",
+    options: [
+      "Stop, don't go there!",
+      "Stop dont go there.",
+      "Stop! Dont go there.",
+      "Stop, dont go there!"
+    ],
+    correct: 0
+  },
+  {
+    category: "Punctuation",
+    difficulty: "Moderate",
+    question: "Which sentence is punctuated correctly?",
+    options: [
+      "Yes, I will come to your party.",
+      "Yes I will come to your party.",
+      "Yes, I will come to your party",
+      "Yes I will come, to your party."
+    ],
+    correct: 0
+  },
+  {
+    category: "Punctuation",
+    difficulty: "Moderate",
+    question: "What punctuation is missing: 'Its a beautiful day'",
+    options: ["comma", "apostrophe", "period", "question mark"],
+    correct: 1
+  },
+  {
+    category: "Punctuation",
+    difficulty: "Difficult",
+    question: "Which sentence uses quotation marks correctly?",
+    options: [
+      "She said, \"I love reading books.\"",
+      "She said, \"I love reading books.",
+      "She said, I love reading books.\"",
+      "She said \"I love reading books.\""
+    ],
+    correct: 0
+  },
+  {
+    category: "Punctuation",
+    difficulty: "Difficult",
+    question: "Punctuate correctly: 'After the game which lasted three hours we went home'",
+    options: [
+      "After the game which lasted three hours, we went home.",
+      "After the game, which lasted three hours, we went home.",
+      "After the game which lasted three hours we went home.",
+      "After, the game which lasted three hours, we went home."
+    ],
+    correct: 1
+  },
+  {
+    category: "Punctuation",
+    difficulty: "Difficult",
+    question: "Which sentence uses the apostrophe correctly?",
+    options: [
+      "The dogs bone is buried in the yard.",
+      "The dog's bone is buried in the yard.",
+      "The dogs' bone is buried in the yard.",
+      "The dog's bone is buried in the yard."
+    ],
+    correct: 1
+  },
+  {
+    category: "Punctuation",
+    difficulty: "Difficult",
+    question: "Add correct punctuation: 'Dear Mom I hope you are well Love Sarah'",
+    options: [
+      "Dear Mom, I hope you are well. Love, Sarah.",
+      "Dear Mom I hope you are well Love Sarah.",
+      "Dear Mom, I hope you are well Love Sarah.",
+      "Dear Mom I hope you are well. Love, Sarah."
+    ],
+    correct: 0
+  },
+  {
+    category: "Punctuation",
+    difficulty: "Difficult",
+    question: "Which uses the colon correctly?",
+    options: [
+      "I need: bread, milk, and eggs.",
+      "I need the following: bread, milk, and eggs.",
+      "I need bread: milk, and eggs.",
+      "I: need bread, milk, and eggs."
+    ],
+    correct: 1
+  },
+  {
+    category: "Punctuation",
+    difficulty: "Very Difficult",
+    question: "Punctuate: 'The teacher said John please answer the question'",
+    options: [
+      "The teacher said, \"John, please answer the question.\"",
+      "The teacher said \"John please answer the question.\"",
+      "The teacher said, John, please answer the question.",
+      "The teacher said \"John, please answer the question.\""
+    ],
+    correct: 0
+  },
+  {
+    category: "Punctuation",
+    difficulty: "Very Difficult",
+    question: "Which sentence uses the semicolon correctly?",
+    options: [
+      "I love pizza; it's my favorite food.",
+      "I love; pizza it's my favorite food.",
+      "I love pizza it's; my favorite food.",
+      "I love pizza, it's my favorite food;"
+    ],
+    correct: 0
+  },
+  {
+    category: "Punctuation",
+    difficulty: "Very Difficult",
+    question: "Add all missing punctuation: 'Attention students the test is tomorrow study hard'",
+    options: [
+      "Attention students, the test is tomorrow, study hard.",
+      "Attention, students! The test is tomorrow; study hard.",
+      "Attention students the test is tomorrow study hard.",
+      "Attention students: the test is tomorrow. Study hard!"
+    ],
+    correct: 1
+  },
+  {
+    category: "Punctuation",
+    difficulty: "Very Difficult",
+    question: "Which sentence is punctuated correctly?",
+    options: [
+      "However, I think we should go.",
+      "However I think, we should go.",
+      "However, I think, we should go.",
+      "However I think we should go."
+    ],
+    correct: 0
+  },
+  {
+    category: "Punctuation",
+    difficulty: "Very Difficult",
+    question: "Punctuate the address: 'John Smith 123 Main Street New York NY 10001'",
+    options: [
+      "John Smith, 123 Main Street, New York, NY 10001",
+      "John Smith 123 Main Street New York NY 10001",
+      "John Smith, 123 Main Street New York, NY, 10001",
+      "John Smith 123, Main Street, New York NY, 10001"
+    ],
+    correct: 0
+  },
+  {
+    category: "Punctuation",
+    difficulty: "Tricky",
+    question: "Which sentence has a punctuation error?",
+    options: [
+      "It's raining outside.",
+      "The cat's toy is missing.",
+      "Its a beautiful day.",
+      "The dog's bark is loud."
+    ],
+    correct: 2
+  },
+  {
+    category: "Punctuation",
+    difficulty: "Tricky",
+    question: "Choose the correctly punctuated sentence:",
+    options: [
+      "We visited Paris, France last summer.",
+      "We visited Paris France, last summer.",
+      "We visited, Paris, France last summer.",
+      "We visited Paris France last summer."
+    ],
+    correct: 0
+  },
+  {
+    category: "Punctuation",
+    difficulty: "Tricky",
+    question: "Which needs different punctuation?",
+    options: [
+      "What time is it?",
+      "Please close the door.",
+      "Fire. Help me!",
+      "I love chocolate."
+    ],
+    correct: 2
+  },
+  {
+    category: "Punctuation",
+    difficulty: "Olympiad",
+    question: "Identify the punctuation error: 'The students' books, pencils, and erasers were on the teachers desk.'",
+    options: [
+      "Missing apostrophe in 'teachers'",
+      "Wrong comma placement",
+      "Missing quotation marks",
+      "Incorrect apostrophe in 'students'"
+    ],
+    correct: 0
+  },
+  {
+    category: "Punctuation",
+    difficulty: "Olympiad",
+    question: "Which sentence demonstrates the Oxford comma rule?",
+    options: [
+      "I bought apples, oranges and bananas.",
+      "I bought apples, oranges, and bananas.",
+      "I bought apples oranges, and bananas.",
+      "I bought, apples, oranges, and bananas."
+    ],
+    correct: 1
+  },
 
-            // Kannada Ankigalu (25 questions)
-            // Kannada Ankigalu Questions (25 questions)
-{
-  category: "Kannada Ankigalu",
-  question: "What is the Kannada symbol for number 1?",
-  options: ['೧', '೧೦', '೧೦೦', '೨'],
-  correct: 0
-},
-{
-  category: "Kannada Ankigalu",
-  question: "Which of the following means 3 in Kannada?",
-  options: ['೩', '೫', '೬', '೬೩'],
-  correct: 0
-},
-{
-  category: "Kannada Ankigalu",
-  question: "What number is represented by '೮'?",
-  options: ['8', '3', '5', '2'],
-  correct: 0
-},
-{
-  category: "Kannada Ankigalu",
-  question: "Which Kannada digit stands for 0?",
-  options: ['೦', '೧', '೧೦', '೦೦'],
-  correct: 0
-},
-{
-  category: "Kannada Ankigalu",
-  question: "What is '೧೦' in Kannada numerals?",
-  options: ['Ten', 'One', 'One Hundred', 'Zero'],
-  correct: 0
-},
-{
-  category: "Kannada Ankigalu",
-  question: "Which of these is the Kannada symbol for 5?",
-  options: ['೫', '೬', '೩', '೭'],
-  correct: 0
-},
-{
-  category: "Kannada Ankigalu",
-  question: "Select the Kannada numeral for 9.",
-  options: ['೯', '೫', '೩', '೧'],
-  correct: 0
-},
-{
-  category: "Kannada Ankigalu",
-  question: "What does '೨' represent?",
-  options: ['2', '5', '7', '4'],
-  correct: 0
-},
-{
-  category: "Kannada Ankigalu",
-  question: "How is the number 4 written in Kannada?",
-  options: ['೪', '೫', '೮', '೩'],
-  correct: 0
-},
-{
-  category: "Kannada Ankigalu",
-  question: "Which of these means 6?",
-  options: ['೬', '೫', '೪', '೭'],
-  correct: 0
-},
-{
-  category: "Kannada Ankigalu",
-  question: "What is 7 in Kannada numerals?",
-  options: ['೭', '೮', '೬', '೯'],
-  correct: 0
-},
-{
-  category: "Kannada Ankigalu",
-  question: "Which numeral is '೩'?",
-  options: ['3', '5', '2', '9'],
-  correct: 0
-},
-{
-  category: "Kannada Ankigalu",
-  question: "Choose the Kannada numeral for 100.",
-  options: ['೧೦೦', '೧೦', '೧', '೦'],
-  correct: 0
-},
-{
-  category: "Kannada Ankigalu",
-  question: "Which symbol shows 50 in Kannada?",
-  options: ['೫೦', '೦೫', '೫', '೦೫೦'],
-  correct: 0
-},
-{
-  category: "Kannada Ankigalu",
-  question: "How is 20 written in Kannada?",
-  options: ['೨೦', '೨೦೦', '೨', '೦೨'],
-  correct: 0
-},
-{
-  category: "Kannada Ankigalu",
-  question: "What number is '೧೯'?",
-  options: ['19', '9', '10', '11'],
-  correct: 0
-},
-{
-  category: "Kannada Ankigalu",
-  question: "Choose the correct Kannada numeral for 11.",
-  options: ['೧೧', '೧', '೧೦', '೦೧'],
-  correct: 0
-},
-{
-  category: "Kannada Ankigalu",
-  question: "How is 12 represented in Kannada?",
-  options: ['೧೨', '೨೧', '೨೦', '೨೧೦'],
-  correct: 0
-},
-{
-  category: "Kannada Ankigalu",
-  question: "Which digit comes after '೬'?",
-  options: ['೭', '೮', '೫', '೯'],
-  correct: 0
-},
-{
-  category: "Kannada Ankigalu",
-  question: "Which digit comes before '೫'?",
-  options: ['೪', '೬', '೭', '೮'],
-  correct: 0
-},
-{
-  category: "Kannada Ankigalu",
-  question: "Which of these is not a valid Kannada numeral?",
-  options: ['೯೯೯', '೯೩', '೯೦', '೯A'],
-  correct: 3
-},
-{
-  category: "Kannada Ankigalu",
-  question: "Choose the correct Kannada symbol for 60.",
-  options: ['೬೦', '೦೬', '೦೬೦', '೬'],
-  correct: 0
-},
-{
-  category: "Kannada Ankigalu",
-  question: "What is the Kannada symbol for 15?",
-  options: ['೧೫', '೧', '೫', '೧೦'],
-  correct: 0
-},
-{
-  category: "Kannada Ankigalu",
-  question: "Choose the Kannada numeral for 99.",
-  options: ['೯೯', '೯', '೯೦', '೮೯'],
-  correct: 0
-},
-{
-  category: "Kannada Ankigalu",
-  question: "What is '೦೦'?",
-  options: ['Zero', 'Hundred', 'Ten', 'Twenty'],
-  correct: 0
-},
+  // Collective Nouns Questions (25 total)
+  {
+    category: "Collective Nouns",
+    difficulty: "Easy",
+    question: "A group of lions is called a ____________.",
+    options: ["herd", "school", "pride", "pack"],
+    correct: 2
+  },
+  {
+    category: "Collective Nouns",
+    difficulty: "Easy",
+    question: "A group of fish is called a ____________.",
+    options: ["flock", "school", "herd", "pride"],
+    correct: 1
+  },
+  {
+    category: "Collective Nouns",
+    difficulty: "Easy",
+    question: "A group of birds is called a ____________.",
+    options: ["pack", "flock", "herd", "school"],
+    correct: 1
+  },
+  {
+    category: "Collective Nouns",
+    difficulty: "Easy",
+    question: "A group of cows is called a ____________.",
+    options: ["herd", "flock", "pack", "swarm"],
+    correct: 0
+  },
+  {
+    category: "Collective Nouns",
+    difficulty: "Easy",
+    question: "A group of bees is called a ____________.",
+    options: ["herd", "flock", "swarm", "pack"],
+    correct: 2
+  },
+  {
+    category: "Collective Nouns",
+    difficulty: "Moderate",
+    question: "A group of wolves is called a ____________.",
+    options: ["herd", "pack", "flock", "school"],
+    correct: 1
+  },
+  {
+    category: "Collective Nouns",
+    difficulty: "Moderate",
+    question: "A group of sheep is called a ____________.",
+    options: ["flock", "herd", "pack", "swarm"],
+    correct: 0
+  },
+  {
+    category: "Collective Nouns",
+    difficulty: "Moderate",
+    question: "A group of elephants is called a ____________.",
+    options: ["pack", "flock", "herd", "school"],
+    correct: 2
+  },
+  {
+    category: "Collective Nouns",
+    difficulty: "Moderate",
+    question: "A group of ants is called a ____________.",
+    options: ["swarm", "colony", "herd", "flock"],
+    correct: 1
+  },
+  {
+    category: "Collective Nouns",
+    difficulty: "Moderate",
+    question: "A group of players is called a ____________.",
+    options: ["team", "crowd", "audience", "group"],
+    correct: 0
+  },
+  {
+    category: "Collective Nouns",
+    difficulty: "Difficult",
+    question: "A group of geese is called a ____________.",
+    options: ["flock", "gaggle", "herd", "pack"],
+    correct: 1
+  },
+  {
+    category: "Collective Nouns",
+    difficulty: "Difficult",
+    question: "A group of sailors is called a ____________.",
+    options: ["team", "crew", "group", "band"],
+    correct: 1
+  },
+  {
+    category: "Collective Nouns",
+    difficulty: "Difficult",
+    question: "A group of musicians is called a ____________.",
+    options: ["team", "crew", "band", "group"],
+    correct: 2
+  },
+  {
+    category: "Collective Nouns",
+    difficulty: "Difficult",
+    question: "A group of flowers is called a ____________.",
+    options: ["bunch", "bouquet", "collection", "all of the above"],
+    correct: 3
+  },
+  {
+    category: "Collective Nouns",
+    difficulty: "Difficult",
+    question: "A group of judges is called a ____________.",
+    options: ["panel", "team", "group", "committee"],
+    correct: 0
+  },
+  {
+    category: "Collective Nouns",
+    difficulty: "Very Difficult",
+    question: "A group of owls is called a ____________.",
+    options: ["flock", "parliament", "herd", "pack"],
+    correct: 1
+  },
+  {
+    category: "Collective Nouns",
+    difficulty: "Very Difficult",
+    question: "A group of crows is called a ____________.",
+    options: ["murder", "flock", "pack", "herd"],
+    correct: 0
+  },
+  {
+    category: "Collective Nouns",
+    difficulty: "Very Difficult",
+    question: "A group of kangaroos is called a ____________.",
+    options: ["herd", "mob", "pack", "flock"],
+    correct: 1
+  },
+  {
+    category: "Collective Nouns",
+    difficulty: "Very Difficult",
+    question: "A group of whales is called a ____________.",
+    options: ["school", "pod", "herd", "pack"],
+    correct: 1
+  },
+  {
+    category: "Collective Nouns",
+    difficulty: "Very Difficult",
+    question: "A group of kittens is called a ____________.",
+    options: ["litter", "pack", "herd", "flock"],
+    correct: 0
+  },
+  {
+    category: "Collective Nouns",
+    difficulty: "Tricky",
+    question: "Which is NOT a collective noun?",
+    options: ["team", "quickly", "family", "class"],
+    correct: 1
+  },
+  {
+    category: "Collective Nouns",
+    difficulty: "Tricky",
+    question: "A group of grapes is called a ____________.",
+    options: ["bunch", "cluster", "bundle", "both A and B"],
+    correct: 3
+  },
+  {
+    category: "Collective Nouns",
+    difficulty: "Tricky",
+    question: "The collective noun for a group of stars is ____________.",
+    options: ["galaxy", "constellation", "cluster", "all of the above"],
+    correct: 3
+  },
+  {
+    category: "Collective Nouns",
+    difficulty: "Olympiad",
+    question: "A group of flamingos is called a ____________.",
+    options: ["flock", "flamboyance", "herd", "pack"],
+    correct: 1
+  },
+  {
+    category: "Collective Nouns",
+    difficulty: "Olympiad",
+    question: "Which sentence uses a collective noun correctly?",
+    options: [
+      "The team are playing well.",
+      "The team is playing well.",
+      "The teams is playing well.",
+      "The team were playing well."
+    ],
+    correct: 1
+  },
 
+  // Unseen Comprehension Questions (10 total with passages)
+  {
+    category: "Unseen Comprehension",
+    passage: "Once upon a time, there was a little rabbit named Rosie who lived in a beautiful meadow. Every morning, Rosie would hop around the meadow looking for the sweetest clover to eat. One day, she discovered a patch of four-leaf clovers hidden behind a large oak tree. Rosie was so excited because she had heard that four-leaf clovers bring good luck. She decided to keep this special place a secret and visit it every day.",
+    question: "What did Rosie discover behind the oak tree?",
+    options: [
+      "A carrot patch",
+      "A patch of four-leaf clovers",
+      "Other rabbits",
+      "A pond"
+    ],
+    correct: 1
+  },
+  {
+    category: "Unseen Comprehension",
+    passage: "The old lighthouse stood tall on the rocky cliff, its bright beam cutting through the foggy night. Captain Sarah had been the lighthouse keeper for twenty years, and she took great pride in her work. Every evening, she would climb the spiral staircase to the top and light the powerful lamp. Ships from far and wide depended on her lighthouse to guide them safely to shore. Tonight was especially important because a big storm was approaching.",
+    question: "How long had Captain Sarah been the lighthouse keeper?",
+    options: [
+      "Ten years",
+      "Fifteen years",
+      "Twenty years",
+      "Twenty-five years"
+    ],
+    correct: 2
+  },
+  {
+    category: "Unseen Comprehension",
+    passage: "Maya loved to paint, and her favorite subject was butterflies. She would sit in her garden for hours, watching the colorful creatures flutter from flower to flower. Her art teacher, Mrs. Chen, encouraged Maya to enter her butterfly painting in the school art contest. Maya was nervous because she had never entered a contest before, but she decided to be brave and submit her best work—a painting of a monarch butterfly on a sunflower.",
+    question: "What was Maya's favorite subject to paint?",
+    options: [
+      "Flowers",
+      "Butterflies",
+      "Birds",
+      "Trees"
+    ],
+    correct: 1
+  },
+  {
+    category: "Unseen Comprehension",
+    passage: "The school library was Jake's favorite place in the entire building. Every lunch break, he would rush there to read adventure books about pirates and treasure hunters. Mrs. Rodriguez, the librarian, always had new book recommendations for him. She noticed that Jake had read every adventure book in the children's section, so she decided to introduce him to the young adult section where he could find even more exciting stories.",
+    question: "Who was the librarian?",
+    options: [
+      "Mrs. Chen",
+      "Mrs. Rodriguez",
+      "Mrs. Johnson",
+      "Mrs. Smith"
+    ],
+    correct: 1
+  },
+  {
+    category: "Unseen Comprehension",
+    passage: "The annual town festival was the highlight of summer for everyone in Willowbrook. This year, the festival committee decided to add a new event—a talent show for children. Emma had been practicing her violin for months, hoping to perform her favorite piece, 'Twinkle, Twinkle, Little Star.' Her little brother Tommy wanted to participate too, so he planned to recite a funny poem he had written about his pet hamster, Mr. Whiskers.",
+    question: "What piece was Emma planning to perform on the violin?",
+    options: [
+      "Mary Had a Little Lamb",
+      "Twinkle, Twinkle, Little Star",
+      "Happy Birthday",
+      "Jingle Bells"
+    ],
+    correct: 1
+  },
+  {
+    category: "Unseen Comprehension",
+    passage: "Dr. Martinez, the town's veterinarian, had just opened a new animal clinic on Maple Street. Her first patient was a golden retriever named Buddy who had hurt his paw while playing in the park. Buddy's owner, an elderly man named Mr. Peterson, was very worried about his best friend. Dr. Martinez examined Buddy carefully and assured Mr. Peterson that it was just a small cut that would heal quickly with proper care.",
+    question: "What kind of animal was Buddy?",
+    options: [
+      "A cat",
+      "A golden retriever",
+      "A hamster",
+      "A parrot"
+    ],
+    correct: 1
+  },
+  {
+    category: "Unseen Comprehension",
+    passage: "The space museum was planning a special exhibition about the solar system. Professor Johnson, the museum director, wanted to create an interactive display where visitors could learn about each planet. The centerpiece would be a large model of the sun surrounded by all eight planets in their correct order. Visitors would be able to press buttons to hear interesting facts about each planet, starting with Mercury, the closest to the sun.",
+    question: "Which planet is closest to the sun?",
+    options: [
+      "Venus",
+      "Earth",
+      "Mercury",
+      "Mars"
+    ],
+    correct: 2
+  },
+  {
+    category: "Unseen Comprehension",
+    passage: "Chef Antonio's pizza restaurant was famous throughout the city for its delicious wood-fired pizzas. His secret was using fresh ingredients from the local farmer's market every morning. His most popular pizza was the 'Garden Special,' which had tomatoes, bell peppers, mushrooms, and fresh basil. Many customers would drive from far away just to taste Chef Antonio's amazing pizza and enjoy the cozy atmosphere of his family-owned restaurant.",
+    question: "What was Chef Antonio's most popular pizza called?",
+    options: [
+      "The Special",
+      "Garden Special",
+      "Chef's Choice",
+      "Market Fresh"
+    ],
+    correct: 1
+  },
+  {
+    category: "Unseen Comprehension",
+    passage: "The old oak tree in the center of the town square had been there for over one hundred years. It had witnessed many changes in the town—new buildings, new families, and new traditions. Every autumn, the tree's leaves would turn brilliant shades of red, orange, and yellow, creating a beautiful canopy over the square. The town council decided to put a bench under the tree so people could sit and enjoy its shade during the hot summer months.",
+    question: "How long had the oak tree been in the town square?",
+    options: [
+      "Fifty years",
+      "Seventy-five years",
+      "Over one hundred years",
+      "Two hundred years"
+    ],
+    correct: 2
+  },
+  {
+    category: "Unseen Comprehension",
+    passage: "Luna the cat was known throughout the neighborhood for her excellent hunting skills. Unlike other cats who preferred to sleep all day, Luna was always alert and ready for adventure. One morning, she discovered a family of mice living in the garden shed. Instead of chasing them away, Luna decided to become their protector, keeping other cats away from their home. The mice were so grateful that they would leave small gifts of seeds and berries for Luna near the shed.",
+    question: "What made Luna different from other cats?",
+    options: [
+      "She slept all day",
+      "She was always alert and ready for adventure",
+      "She didn't like mice",
+      "She was afraid of other cats"
+    ],
+    correct: 1
+  }
+];
 
-            // Ardha Vyanjana (15 questions)
-// Ardha Vyanjana Questions (15 questions)
-{
-  category: "Ardha Vyanjana",
-  question: "Which is a half consonant in Kannada?",
-  options: ['ನ್', 'ನ', 'ನಾ', 'ನಿ'],
-  correct: 0
-},
-{
-  category: "Ardha Vyanjana",
-  question: "Which of these is a consonant without vowel sound?",
-  options: ['ಕ್', 'ಕ', 'ಕಿ', 'ಕು'],
-  correct: 0
-},
-{
-  category: "Ardha Vyanjana",
-  question: "Choose the half form of 'ದ್':",
-  options: ['ದ್', 'ದ', 'ದಾ', 'ದು'],
-  correct: 0
-},
-{
-  category: "Ardha Vyanjana",
-  question: "What is the function of an ardhavyanjana?",
-  options: ['Forms compound consonants', 'Represents a full sound', 'Is a swara', 'Ends a word'],
-  correct: 0
-},
-{
-  category: "Ardha Vyanjana",
-  question: "Which letter is not an ardhavyanjana?",
-  options: ['ಕ', 'ಕ್', 'ನ್', 'ತ್'],
-  correct: 0
-},
-{
-  category: "Ardha Vyanjana",
-  question: "What does 'ತ್ + ತ' form?",
-  options: ['ತ್ತ', 'ತಾ', 'ತ', 'ತತ'],
-  correct: 0
-},
-{
-  category: "Ardha Vyanjana",
-  question: "Which one of these is not a half consonant?",
-  options: ['ಗ', 'ಕ್', 'ಜ್', 'ನ್'],
-  correct: 0
-},
-{
-  category: "Ardha Vyanjana",
-  question: "What is the purpose of '್' (virama) symbol?",
-  options: ['To suppress the vowel', 'To elongate sound', 'To form plural', 'To show nasal sound'],
-  correct: 0
-},
-{
-  category: "Ardha Vyanjana",
-  question: "Which half consonant joins with 'ರ' to form 'ಕ್ರ'?",
-  options: ['ಕ್', 'ಕ್‌', 'ರ', 'ಕ'],
-  correct: 0
-},
-{
-  category: "Ardha Vyanjana",
-  question: "Choose the correct combination for 'ತ್ರ':",
-  options: ['ತ್ + ರ', 'ತ + ರ್', 'ಟ + ರ', 'ತ್ + ತ'],
-  correct: 0
-},
-{
-  category: "Ardha Vyanjana",
-  question: "Which word contains a half letter?",
-  options: ['ಮುತ್ತು', 'ಮೂಲೆ', 'ಮನೆ', 'ಮಗು'],
-  correct: 0
-},
-{
-  category: "Ardha Vyanjana",
-  question: "What do you get when combining ಬ್ + ರ?",
-  options: ['ಬ್ರ', 'ಬರ', 'ಬರ್', 'ಬ್ರಾ'],
-  correct: 0
-},
-{
-  category: "Ardha Vyanjana",
-  question: "In the word 'ಅಜ್ಜಿ', which letter is half?",
-  options: ['ಜ್', 'ಅ', 'ಜಿ', 'ಜ'],
-  correct: 0
-},
-{
-  category: "Ardha Vyanjana",
-  question: "Which of these is a conjunct using half consonant?",
-  options: ['ತ್ತ', 'ತ್ತಿ', 'ತತಿ', 'ತಟ'],
-  correct: 0
-},
-{
-  category: "Ardha Vyanjana",
-  question: "What is the half form of 'ಬ'?",
-  options: ['ಬ್', 'ಬು', 'ಬಿ', 'ಬಾ'],
-  correct: 0
-},
-
-
-            // Swara Sanketa (15 questions)
-// Swara Sanketa Questions (15 questions)
-{
-  category: "Swara Sanketa",
-  question: "Which symbol represents the vowel 'ಆ'?",
-  options: ['ಾ', 'ಿ', 'ು', 'ೆ'],
-  correct: 0
-},
-{
-  category: "Swara Sanketa",
-  question: "Choose the correct swara sanketa for 'ಊ'?",
-  options: ['ೂ', 'ು', 'ಾ', 'ೀ'],
-  correct: 0
-},
-{
-  category: "Swara Sanketa",
-  question: "What is the swara symbol used in the letter 'ಕಿ'?",
-  options: ['ಿ', 'ಾ', 'ೆ', 'ು'],
-  correct: 0
-},
-{
-  category: "Swara Sanketa",
-  question: "Which swara sanketa makes the sound 'ಈ'?",
-  options: ['ೀ', 'ೆ', 'ೇ', 'ೀಂ'],
-  correct: 0
-},
-{
-  category: "Swara Sanketa",
-  question: "Which of these is the swara sanketa for 'ಓ'?",
-  options: ['ೋ', 'ೌ', 'ಾ', 'ೆ'],
-  correct: 0
-},
-{
-  category: "Swara Sanketa",
-  question: "Choose the correct swara sanketa used in 'ಸು':",
-  options: ['ು', 'ೂ', 'ುಂ', 'ೂಂ'],
-  correct: 0
-},
-{
-  category: "Swara Sanketa",
-  question: "Which symbol is used to represent the vowel 'ಐ'?",
-  options: ['ೖ', 'ೈ', 'ೈ', 'ೈಂ'],
-  correct: 1
-},
-{
-  category: "Swara Sanketa",
-  question: "The swara sanketa 'ೆ' adds which vowel sound?",
-  options: ['ಎ', 'ಅ', 'ಆ', 'ಇ'],
-  correct: 0
-},
-{
-  category: "Swara Sanketa",
-  question: "What is the swara sanketa used in 'ತೇ'?",
-  options: ['ೇ', 'ೆ', 'ೇ', 'ೈ'],
-  correct: 0
-},
-{
-  category: "Swara Sanketa",
-  question: "Choose the correct symbol for 'ಅಂ':",
-  options: ['ಂ', 'ಃ', 'ಾ', 'ು'],
-  correct: 0
-},
-{
-  category: "Swara Sanketa",
-  question: "What is the symbol for 'ಅಃ'?",
-  options: ['ಃ', 'ಂ', 'ಾ', 'ು'],
-  correct: 0
-},
-{
-  category: "Swara Sanketa",
-  question: "Which of these represents the long 'ಋ'?",
-  options: ['ೠ', 'ೃ', 'ೃೕ', 'ೃಃ'],
-  correct: 1
-},
-{
-  category: "Swara Sanketa",
-  question: "Which swara sanketa is used in 'ಹೌ'?",
-  options: ['ೌ', 'ೋ', 'ಾ', 'ೆ'],
-  correct: 0
-},
-{
-  category: "Swara Sanketa",
-  question: "What is the difference between 'ು' and 'ೂ'?",
-  options: ['Short vs Long U', 'A vs Aa', 'I vs Ee', 'None'],
-  correct: 0
-},
-{
-  category: "Swara Sanketa",
-  question: "Which swara sanketa represents 'ಏ'?",
-  options: ['ೇ', 'ೆ', 'ೈ', 'ಾ'],
-  correct: 0
+let currentQuestion = 0;
+let userAnswers = [];
+function renderQuiz() {
+    const question = questions[currentQuestion];
+    const total = questions.length;
+    let html = '';
+    html += `<div class="quiz-progress">${currentQuestion + 1}/${total}</div>`;
+    // Show passage if present
+    if (question.passage) {
+      html += `<div class="passage-box">${question.passage}</div>`;
+    }
+    html += `<div class="question-text">${question.question}</div>`;
+    html += `<div class="options">`;
+    question.options.forEach((option, idx) => {
+        let classes = '';
+        if (userAnswers[currentQuestion] !== undefined) {
+            if (idx === questions[currentQuestion].correct) classes += ' correct';
+            else if (idx === userAnswers[currentQuestion]) classes += ' incorrect';
+            classes += ' disabled';
+            if (idx === userAnswers[currentQuestion]) classes += ' selected';
+        } else if (idx === userAnswers[currentQuestion]) {
+            classes += ' selected';
+        }
+        html += `<div class="option${classes}" id="option-${idx}">
+            <span class="option-label">${String.fromCharCode(65+idx)}.</span> ${option}
+        </div>`;
+    });
+    html += `</div>`;
+    // Feedback
+    if (userAnswers[currentQuestion] !== undefined) {
+        const isCorrect = userAnswers[currentQuestion] === questions[currentQuestion].correct;
+        html += `<div class="feedback" style="margin-bottom:24px;${isCorrect ? 'color:#27ae60;' : 'color:#e74c3c;'}">
+            ${isCorrect ? '✔ That\'s right!' : `✖ Incorrect. The correct answer is <b>${question.options[question.correct]}</b>.`}
+        </div>`;
+    }
+    html += `<div class="hint-row" id="hintRow">Show hint <span class="hint-arrow">▼</span></div>`;
+    html += `<div class="hint-content" id="hintContent">No hint for this question.</div>`;
+    html += `<div class="next-row"><button class="btn" id="nextBtn"${userAnswers[currentQuestion] === undefined ? ' disabled' : ''}>${currentQuestion === total-1 ? 'Done' : 'Next'}</button></div>`;
+    document.getElementById('quizContent').innerHTML = html;
+    // Option click
+    if (userAnswers[currentQuestion] === undefined) {
+        question.options.forEach((option, idx) => {
+            document.getElementById(`option-${idx}`).addEventListener('click', () => selectAnswer(idx));
+        });
+    }
+    // Hint toggle
+    document.getElementById('hintRow').addEventListener('click', () => {
+        const hintRow = document.getElementById('hintRow');
+        const hintContent = document.getElementById('hintContent');
+        hintRow.classList.toggle('open');
+        if (hintRow.classList.contains('open')) {
+            hintContent.style.display = 'block';
+        } else {
+            hintContent.style.display = 'none';
+        }
+    });
+    // Next button
+    document.getElementById('nextBtn').addEventListener('click', () => {
+        if (currentQuestion < total-1) {
+            currentQuestion++;
+            renderQuiz();
+        } else {
+            showResults();
+        }
+    });
 }
- 
-        ];
+function selectAnswer(idx) {
+    if (userAnswers[currentQuestion] !== undefined) return;
+    userAnswers[currentQuestion] = idx;
+    renderQuiz();
+}
+function showResults() {
+  let score = 0, right = 0, wrong = 0, skipped = 0;
+  questions.forEach((q, i) => {
+    if (userAnswers[i] === q.correct) { score++; right++; }
+    else if (userAnswers[i] === undefined) { skipped++; }
+    else { wrong++; }
+  });
+  const accuracy = Math.round((score / questions.length) * 100);
 
-        let currentQuestion = 0;
-        let userAnswers = [];
-        let score = 0;
-        let categoryScores = {};
+  document.getElementById('quizContent').innerHTML = `
+    <div class="result-header">You did it! Quiz complete</div>
+    <div class="result-cards">
+      <div class="result-card">
+        <div class="result-value">${score}/${questions.length}</div>
+        <div class="result-label">Score</div>
+      </div>
+      <div class="result-card">
+        <div class="result-value">${accuracy}%</div>
+        <div class="result-label">Accuracy</div>
+      </div>
+      <div class="result-card">
+        <div class="result-value">Right<br>${right}</div>
+        <div class="result-sub">Wrong ${wrong}<br>Skipped ${skipped}</div>
+      </div>
+    </div>
 
-        function initializeQuiz() {
-            // Initialize category scores
-            const categories = [...new Set(questions.map(q => q.category))];
-            categories.forEach(category => {
-                categoryScores[category] = { correct: 0, total: 0 };
-            });
-
-            // Add event listeners to buttons
-            document.getElementById('prevBtn').addEventListener('click', previousQuestion);
-            document.getElementById('nextBtn').addEventListener('click', nextQuestion);
-            document.getElementById('restartBtn').addEventListener('click', restartQuiz);
-
-            loadQuestion();
-            updateProgress();
-            updateNavButtons();
-            updateRealtimeScore(); // Initialize real-time score
-        }
-
-        function loadQuestion() {
-            const question = questions[currentQuestion];
-            const section = document.getElementById('questionSection');
-            
-            section.innerHTML = `
-                <div class="question-number">${question.category} &bull; Question ${currentQuestion + 1} of ${questions.length}</div>
-                <div class="question-text">${question.question}</div>
-                <div class="options">
-                    ${question.options.map((option, index) => `
-                        <div class="option" id="option-${index}">
-                            <span style="font-weight:600;">${String.fromCharCode(65+index)}.</span> ${option}
-                        </div>
-                    `).join('')}
-                </div>
-                <div class="feedback" id="feedback"></div>
-            `;
-
-            // Add event listeners to options
-            question.options.forEach((option, index) => {
-                document.getElementById(`option-${index}`).addEventListener('click', () => selectAnswer(index));
-            });
-
-            // Show previous answer if exists
-            if (userAnswers[currentQuestion] !== undefined) {
-                showAnswer(userAnswers[currentQuestion]);
-            }
-            updateRealtimeScore(); // Update real-time score after loading a question
-        }
-
-        function selectAnswer(selectedIndex) {
-            // Don't allow changing answer if already answered
-            if (userAnswers[currentQuestion] !== undefined) {
-                return;
-            }
-
-            userAnswers[currentQuestion] = selectedIndex;
-            showAnswer(selectedIndex);
-            updateRealtimeScore(); // Update real-time score after selecting an answer
-        }
-
-        function showAnswer(selectedIndex) {
-            const question = questions[currentQuestion];
-            const options = document.querySelectorAll('.option');
-            const feedback = document.getElementById('feedback');
-            
-            // Mark correct and incorrect answers
-            options.forEach((option, index) => {
-                option.classList.add('disabled');
-                if (index === question.correct) {
-                    option.classList.add('correct');
-                } else if (index === selectedIndex && index !== question.correct) {
-                    option.classList.add('incorrect');
-                }
-                if (index === selectedIndex) {
-                    option.classList.add('selected');
-                }
-            });
-
-            // Show feedback
-            const isCorrect = selectedIndex === question.correct;
-            feedback.style.display = 'block';
-            feedback.className = `feedback ${isCorrect ? 'correct' : 'incorrect'}`;
-            feedback.innerHTML = isCorrect ?
-                `<b>✔ That's right!</b><br>The correct answer is <b>${question.options[question.correct]}</b>.` :
-                `<b>✖ Incorrect.</b><br>The correct answer is <b>${question.options[question.correct]}</b>.`;
-        }
-
-        function nextQuestion() {
-            if (currentQuestion < questions.length - 1) {
-                currentQuestion++;
-                loadQuestion();
-                updateProgress();
-                updateNavButtons();
-            } else {
-                showResults();
-            }
-        }
-
-        function previousQuestion() {
-            if (currentQuestion > 0) {
-                currentQuestion--;
-                loadQuestion();
-                updateProgress();
-                updateNavButtons();
-            }
-        }
-
-        function updateProgress() {
-            const progress = ((currentQuestion + 1) / questions.length) * 100;
-            document.getElementById('progressFill').style.width = progress + '%';
-            document.getElementById('quizProgress').textContent = `Question ${currentQuestion + 1}/${questions.length}`;
-        }
-
-        function updateNavButtons() {
-            const prevBtn = document.getElementById('prevBtn');
-            const nextBtn = document.getElementById('nextBtn');
-            
-            prevBtn.disabled = currentQuestion === 0;
-            
-            if (currentQuestion === questions.length - 1) {
-                nextBtn.textContent = 'Done';
-                nextBtn.removeEventListener('click', nextQuestion);
-                nextBtn.addEventListener('click', showResults);
-            } else {
-                nextBtn.textContent = 'Next';
-                nextBtn.removeEventListener('click', showResults);
-                nextBtn.addEventListener('click', nextQuestion);
-            }
-        }
-
-        function updateRealtimeScore() {
-            let currentScore = 0;
-            questions.forEach((question, index) => {
-                if (userAnswers[index] === question.correct) {
-                    currentScore++;
-                }
-            });
-            const answered = userAnswers.filter(ans => ans !== undefined).length;
-            const percent = answered > 0 ? Math.round((currentScore / answered) * 100) : 0;
-            document.getElementById('scoreRealtime').textContent = `Score: ${currentScore}/${answered} (${percent}%)`;
-        }
-
-        function calculateScore() {
-            score = 0;
-            
-            // Reset category scores
-            Object.keys(categoryScores).forEach(category => {
-                categoryScores[category] = { correct: 0, total: 0 };
-            });
-
-            questions.forEach((question, index) => {
-                const category = question.category;
-                categoryScores[category].total++;
-                
-                if (userAnswers[index] === question.correct) {
-                    score++;
-                    categoryScores[category].correct++;
-                }
-            });
-        }
-
-        function showResults() {
-            calculateScore();
-            
-            const percentage = Math.round((score / questions.length) * 100);
-            const resultsDiv = document.getElementById('results');
-            const scoreDiv = document.getElementById('finalScore');
-            const messageDiv = document.getElementById('scoreMessage');
-            const breakdownDiv = document.getElementById('categoryBreakdown');
-            
-            scoreDiv.textContent = `${score}/${questions.length} (${percentage}%)`;
-            
-            let message = '';
-            if (percentage >= 90) {
-                message = '🏆 Excellent! You are a Kannada superstar!';
-            } else if (percentage >= 75) {
-                message = '🌟 Great job! You know your Kannada well!';
-            } else if (percentage >= 60) {
-                message = '👍 Good work! Keep practicing!';
-            } else {
-                message = '📚 Keep studying! You\'ll improve with practice!';
-            }
-            messageDiv.textContent = message;
-            
-            // Show category breakdown
-            breakdownDiv.innerHTML = Object.entries(categoryScores).map(([category, scores]) => `
-                <div class="category-score">
-                    <h3>${category}</h3>
-                    <p>${scores.correct}/${scores.total} (${Math.round((scores.correct/scores.total)*100)}%)</p>
-                </div>
-            `).join('');
-            
-            // Hide quiz container and show results
-            document.getElementById('quizMain').style.display = 'none';
-            resultsDiv.style.display = 'block';
-        }
-
-        function restartQuiz() {
-            currentQuestion = 0;
-            userAnswers = [];
-            score = 0;
-            
-            document.getElementById('quizMain').style.display = 'block';
-            document.getElementById('results').style.display = 'none';
-            
-            initializeQuiz();
-        }
-
-        // Initialize the quiz when the page loads
-        document.addEventListener('DOMContentLoaded', initializeQuiz);
+    <div class="result-btn-row"><button class="btn" onclick="restartQuiz()">Try Again</button></div>
+  `;
+}
+function restartQuiz() {
+    currentQuestion = 0;
+    userAnswers = [];
+    renderQuiz();
+}
+document.addEventListener('DOMContentLoaded', renderQuiz);
     </script>
 </body>
 </html>

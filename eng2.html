@@ -1,0 +1,1280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3rd Grade English Exam Practice</title>
+    <style>
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+:root {
+    --primary: #AECBFA;
+    --header-bg: #181a20;
+    --card-bg: #23272f;
+    --option-bg: #292d36;
+    --option-hover: #31343c;
+    --option-selected: #353945;
+    --option-border: #353945;
+    --text: #f5f6fa;
+    --muted: #b2becd;
+    --border: #353945;
+    --btn-bg: #AECBFA;
+    --btn-text: #23272f;
+    --btn-hover: #8ab4f8;
+    --hint-bg: #23272f;
+    --hint-border: #353945;
+}
+html, body {
+    height: 100%;
+}
+body {
+    min-height: 100vh;
+    background: #181a20;
+    color: var(--text);
+    font-family: "Open Sans", Arial, sans-serif;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 0;
+}
+.header-bar {
+    width: 100%;
+    background: var(--header-bg);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    padding: 0 0 0 0;
+    min-height: 56px;
+    box-sizing: border-box;
+    border-radius: 16px 16px 0 0;
+}
+.header-bar-inner {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 24px;
+    min-height: 56px;
+}
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.header-icon {
+    font-size: 1.3em;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+}
+.header-title {
+    font-size: 1.1em;
+    font-weight: 600;
+    color: var(--text);
+    letter-spacing: 0.01em;
+}
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+.header-action {
+    background: none;
+    border: none;
+    color: var(--muted);
+    font-size: 1.2em;
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 50%;
+    transition: background 0.15s;
+}
+.header-action:hover {
+    background: #23272f;
+}
+.quiz-card {
+    background: var(--card-bg);
+    border-radius: 16px;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.25);
+    max-width: 700px;
+    width: 100%;
+    margin: 32px auto 0 auto;
+    padding: 0 0 0 0;
+    border: 1px solid var(--border);
+    box-sizing: border-box;
+}
+.quiz-content {
+    padding: 32px 32px 0 32px;
+}
+.quiz-progress {
+    font-size: 1em;
+    color: var(--muted);
+    margin-bottom: 0.5em;
+    font-weight: 500;
+}
+.question-text {
+    font-size: 1.18em;
+    font-weight: 600;
+    margin-bottom: 28px;
+    color: var(--text);
+    line-height: 1.5;
+}
+.options {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 32px;
+}
+.option {
+    background: var(--option-bg);
+    border: 1.5px solid var(--option-border);
+    border-radius: 12px;
+    padding: 18px 24px;
+    font-size: 1.08em;
+    font-weight: 500;
+    color: var(--text);
+    cursor: pointer;
+    transition: background 0.18s, border 0.18s;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    text-align: left;
+    min-height: 48px;
+}
+.option-label {
+    font-weight: 700;
+    font-size: 1.1em;
+    color: var(--muted);
+    min-width: 28px;
+    display: inline-block;
+}
+.option.selected {
+    background: var(--option-selected);
+    border-color: var(--primary);
+}
+.option.correct {
+    background: #263e2e;
+    border-color: #27ae60;
+    color: #27ae60;
+}
+.option.incorrect {
+    background: #3a2323;
+    border-color: #e74c3c;
+    color: #e74c3c;
+}
+.option:hover:not(.disabled):not(.selected) {
+    background: var(--option-hover);
+    border-color: var(--primary);
+}
+.option.disabled {
+    pointer-events: none;
+    opacity: 0.7;
+}
+.hint-row {
+    margin: 0 0 32px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--muted);
+    font-size: 1em;
+    font-weight: 500;
+    cursor: pointer;
+    user-select: none;
+}
+.hint-arrow {
+    font-size: 1.1em;
+    transition: transform 0.2s;
+    display: inline-block;
+}
+.hint-content {
+    display: none;
+    background: var(--hint-bg);
+    border: 1px solid var(--hint-border);
+    border-radius: 8px;
+    padding: 16px;
+    color: var(--muted);
+    font-size: 0.98em;
+    margin-bottom: 16px;
+}
+.hint-row.open .hint-arrow {
+    transform: rotate(180deg);
+}
+.hint-row.open + .hint-content {
+    display: block;
+}
+.next-row {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin: 0 0 32px 0;
+}
+.btn {
+    padding: 12px 36px;
+    border: none;
+    border-radius: 24px;
+    font-size: 1.1em;
+    font-weight: 600;
+    cursor: pointer;
+    background: var(--btn-bg);
+    color: var(--btn-text);
+    transition: background 0.18s;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+}
+.btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+.btn:hover:not(:disabled) {
+    background: var(--btn-hover);
+}
+.passage-box {
+  background: #23272f;
+  border: 1px solid #353945;
+  border-radius: 10px;
+  padding: 18px 20px;
+  margin-bottom: 28px;
+  color: #e0e3ea;
+  font-size: 1.05em;
+  line-height: 1.6;
+  white-space: pre-line;
+}
+.result-header {
+  font-size: 1.5em;
+  font-weight: 600;
+  margin-bottom: 32px;
+  text-align: left;
+}
+.result-cards {
+  display: flex;
+  gap: 24px;
+  margin-bottom: 36px;
+  flex-wrap: wrap;
+}
+.result-card {
+  background: #23272f;
+  border-radius: 18px;
+  padding: 28px 36px 20px 36px;
+  min-width: 140px;
+  text-align: center;
+  box-shadow: 0 1px 8px rgba(0,0,0,0.08);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1 1 0;
+}
+.result-card .result-value {
+  font-size: 2.1em;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 8px;
+}
+.result-card .result-label {
+  font-size: 1.1em;
+  color: var(--muted);
+  font-weight: 500;
+}
+.result-card .result-sub {
+  font-size: 1.1em;
+  color: var(--muted);
+  font-weight: 500;
+  margin-top: 8px;
+}
+.result-section-title {
+  font-size: 1.15em;
+  font-weight: 700;
+  margin: 36px 0 12px 0;
+  color: var(--text);
+}
+.result-list {
+  margin: 0 0 0 18px;
+  padding: 0;
+  color: var(--text);
+}
+.result-list li {
+  margin-bottom: 16px;
+  font-size: 1.08em;
+  line-height: 1.6;
+}
+.result-btn-row {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+@media (max-width: 600px) {
+    .quiz-card {
+        max-width: 100vw;
+        border-radius: 0;
+        margin: 0;
+    }
+    .quiz-content {
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+    .header-bar-inner {
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+}
+    </style>
+</head>
+<body>
+    <div class="quiz-card">
+        <div class="header-bar">
+            <div class="header-bar-inner">
+                <div class="header-left">
+                    <span class="header-icon" title="Quiz"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h18"/></svg></span>
+                    <span class="header-title">3rd Grade English Exam Practice</span>
+                </div>
+                <div class="header-right">
+                    <button class="header-action" title="Share"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.59 13.51l6.83 3.98"/><path d="M15.41 6.51l-6.82 3.98"/></svg></button>
+                    <button class="header-action" title="Close"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+                </div>
+            </div>
+        </div>
+        <div class="quiz-content" id="quizContent">
+            <!-- Quiz content will be rendered here -->
+        </div>
+    </div>
+    <script>
+// Quiz questions data
+const questions = [
+  // Similes Questions (20)
+  {
+    category: "Similes",
+    question: "As busy as a ________.",
+    options: ["cat", "bee", "cow", "snake"],
+    correct: 1
+  },
+  {
+    category: "Similes",
+    question: "As light as a ________.",
+    options: ["brick", "feather", "rock", "tree"],
+    correct: 1
+  },
+  {
+    category: "Similes",
+    question: "She is as gentle as a ________.",
+    options: ["lion", "storm", "lamb", "bear"],
+    correct: 2
+  },
+  {
+    category: "Similes",
+    question: "He ran as fast as ________.",
+    options: ["a snail", "lightning", "a turtle", "a feather"],
+    correct: 1
+  },
+  {
+    category: "Similes",
+    question: "As cold as ________.",
+    options: ["fire", "ice", "sunshine", "lava"],
+    correct: 1
+  },
+  {
+    category: "Similes",
+    question: "Her voice was as sweet as ________.",
+    options: ["thunder", "honey", "sandpaper", "vinegar"],
+    correct: 1
+  },
+  {
+    category: "Similes",
+    question: "As proud as a ________.",
+    options: ["mouse", "peacock", "worm", "shy person"],
+    correct: 1
+  },
+  {
+    category: "Similes",
+    question: "The water was as clear as ________.",
+    options: ["mud", "crystal", "ink", "oil"],
+    correct: 1
+  },
+  {
+    category: "Similes",
+    question: "As brave as a ________.",
+    options: ["lion", "chicken", "rabbit", "mouse"],
+    correct: 0
+  },
+  {
+    category: "Similes",
+    question: "As quiet as a ________.",
+    options: ["thunderstorm", "mouse", "parrot", "siren"],
+    correct: 1
+  },
+  {
+    category: "Similes",
+    question: "As wise as an ________.",
+    options: ["owl", "ant", "puppy", "egg"],
+    correct: 0
+  },
+  {
+    category: "Similes",
+    question: "As slippery as an ________.",
+    options: ["apple", "eel", "stone", "book"],
+    correct: 1
+  },
+  {
+    category: "Similes",
+    question: "As stubborn as a ________.",
+    options: ["river", "cloud", "mule", "fish"],
+    correct: 2
+  },
+  {
+    category: "Similes",
+    question: "As white as ________.",
+    options: ["coal", "snow", "night", "chocolate"],
+    correct: 1
+  },
+  {
+    category: "Similes",
+    question: "As quick as ________.",
+    options: ["a sloth", "a tortoise", "a glacier", "lightning"],
+    correct: 3
+  },
+  {
+    category: "Similes",
+    question: "As blind as a ________.",
+    options: ["hawk", "bat", "eagle", "owl"],
+    correct: 1
+  },
+  {
+    category: "Similes",
+    question: "As hungry as a ________.",
+    options: ["full person", "wolf", "sleeping baby", "stone"],
+    correct: 1
+  },
+  {
+    category: "Similes",
+    question: "As sharp as a ________.",
+    options: ["pillow", "razor", "banana", "balloon"],
+    correct: 1
+  },
+  {
+    category: "Similes",
+    question: "As old as the ________.",
+    options: ["new car", "Internet", "hills", "baby"],
+    correct: 2
+  },
+  {
+    category: "Similes",
+    question: "As fresh as a ________.",
+    options: ["rotten apple", "daisy", "old shoe", "rusty nail"],
+    correct: 1
+  },
+
+  // Pronouns Questions (20)
+  {
+    category: "Pronouns",
+    question: "John is a boy. ______ likes to play cricket.",
+    options: ["He", "She", "It", "They"],
+    correct: 0
+  },
+  {
+    category: "Pronouns",
+    question: "Sara and I are going to the market. ______ will buy fruits.",
+    options: ["They", "We", "Us", "Them"],
+    correct: 1
+  },
+  {
+    category: "Pronouns",
+    question: "The book is on the table. Please pass ______ to me.",
+    options: ["he", "she", "it", "they"],
+    correct: 2
+  },
+  {
+    category: "Pronouns",
+    question: "My parents are coming tomorrow. I'm excited to see ______.",
+    options: ["him", "her", "them", "us"],
+    correct: 2
+  },
+  {
+    category: "Pronouns",
+    question: "This is my sister. ______ name is Priya.",
+    options: ["His", "Her", "Their", "Our"],
+    correct: 1
+  },
+  {
+    category: "Pronouns",
+    question: "Rahul and Rohan are brothers. ______ share a room.",
+    options: ["He", "She", "They", "It"],
+    correct: 2
+  },
+  {
+    category: "Pronouns",
+    question: "The cat is sleeping. Don't wake ______ up.",
+    options: ["he", "she", "it", "they"],
+    correct: 2
+  },
+  {
+    category: "Pronouns",
+    question: "This pen is ______. I bought it yesterday.",
+    options: ["me", "my", "mine", "I"],
+    correct: 2
+  },
+  {
+    category: "Pronouns",
+    question: "The teacher told ______ students to be quiet.",
+    options: ["his", "her", "their", "our"],
+    correct: 1
+  },
+  {
+    category: "Pronouns",
+    question: "You and ______ should work together on this project.",
+    options: ["I", "me", "my", "mine"],
+    correct: 0
+  },
+  {
+    category: "Pronouns",
+    question: "Each of the girls brought ______ own lunch.",
+    options: ["their", "her", "his", "our"],
+    correct: 1
+  },
+  {
+    category: "Pronouns",
+    question: "Nobody forgot ______ homework today.",
+    options: ["his", "her", "their", "his or her"],
+    correct: 3
+  },
+  {
+    category: "Pronouns",
+    question: "This is between you and ______.",
+    options: ["I", "me", "my", "mine"],
+    correct: 1
+  },
+  {
+    category: "Pronouns",
+    question: "The team celebrated ______ victory.",
+    options: ["his", "her", "its", "their"],
+    correct: 3
+  },
+  {
+    category: "Pronouns",
+    question: "One should always do ______ best.",
+    options: ["his", "her", "one's", "their"],
+    correct: 2
+  },
+  {
+    category: "Pronouns",
+    question: "______ is raining outside.",
+    options: ["He", "She", "It", "They"],
+    correct: 2
+  },
+  {
+    category: "Pronouns",
+    question: "The children made the cards ______.",
+    options: ["himself", "herself", "themselves", "itself"],
+    correct: 2
+  },
+  {
+    category: "Pronouns",
+    question: "That book belongs to ______.",
+    options: ["I", "me", "my", "mine"],
+    correct: 1
+  },
+  {
+    category: "Pronouns",
+    question: "______ car is parked in the driveway?",
+    options: ["Who", "Whom", "Whose", "Who's"],
+    correct: 2
+  },
+  {
+    category: "Pronouns",
+    question: "______ did you invite to the party?",
+    options: ["Who", "Whom", "Whose", "Which"],
+    correct: 1
+  },
+
+  // Articles Questions (20)
+  {
+    category: "Articles",
+    question: "I bought ___ apple and ___ banana from ___ market.",
+    options: ["an, a, the", "a, a, the", "an, the, a", "the, an, a"],
+    correct: 0
+  },
+  {
+    category: "Articles",
+    question: "She read ___ interesting story about ___ queen who had ___ unicorn.",
+    options: ["an, a, a", "a, the, an", "an, the, a", "the, an, the"],
+    correct: 2
+  },
+  {
+    category: "Articles",
+    question: "He is ___ honest man and ___ best employee in ___ company.",
+    options: ["a, the, the", "an, the, the", "the, a, a", "an, a, the"],
+    correct: 1
+  },
+  {
+    category: "Articles",
+    question: "Can you pass me ___ salt? It's on ___ table near ___ window.",
+    options: ["the, the, the", "a, a, a", "the, a, the", "a, the, the"],
+    correct: 0
+  },
+  {
+    category: "Articles",
+    question: "She wants to be ___ astronaut when she grows up.",
+    options: ["a", "an", "the", "no article"],
+    correct: 1
+  },
+  {
+    category: "Articles",
+    question: "___ sun rises in ___ east and sets in ___ west.",
+    options: ["The, the, the", "A, a, a", "The, an, a", "No article, the, the"],
+    correct: 0
+  },
+  {
+    category: "Articles",
+    question: "I saw ___ owl sitting on ___ branch of ___ old oak tree.",
+    options: ["a, a, an", "an, a, an", "the, the, the", "an, the, an"],
+    correct: 1
+  },
+  {
+    category: "Articles",
+    question: "He plays ___ guitar and ___ piano very well.",
+    options: ["the, the", "a, a", "no article, no article", "the, a"],
+    correct: 0
+  },
+  {
+    category: "Articles",
+    question: "She has ___ university degree in ___ physics.",
+    options: ["a, no article", "an, the", "the, a", "a, the"],
+    correct: 0
+  },
+  {
+    category: "Articles",
+    question: "We went to ___ hospital to visit ___ friend who had ___ accident.",
+    options: ["the, a, an", "a, the, an", "no article, a, an", "the, the, the"],
+    correct: 2
+  },
+  {
+    category: "Articles",
+    question: "___ Mount Everest is ___ highest peak in ___ world.",
+    options: ["The, the, the", "No article, the, the", "A, a, a", "The, a, the"],
+    correct: 1
+  },
+  {
+    category: "Articles",
+    question: "I need ___ hour to finish this work.",
+    options: ["a", "an", "the", "no article"],
+    correct: 1
+  },
+  {
+    category: "Articles",
+    question: "She is ___ European but she speaks ___ Hindi fluently.",
+    options: ["a, no article", "an, the", "a, a", "the, no article"],
+    correct: 0
+  },
+  {
+    category: "Articles",
+    question: "___ rich should help ___ poor.",
+    options: ["The, the", "A, a", "No article, no article", "The, a"],
+    correct: 0
+  },
+  {
+    category: "Articles",
+    question: "He is ___ one-eyed man who lives in ___ small cottage.",
+    options: ["a, a", "an, the", "the, a", "a, the"],
+    correct: 0
+  },
+  {
+    category: "Articles",
+    question: "___ English is ___ language spoken worldwide.",
+    options: ["The, a", "No article, a", "An, the", "The, the"],
+    correct: 1
+  },
+  {
+    category: "Articles",
+    question: "I saw ___ UFO in ___ sky last night!",
+    options: ["a, the", "an, the", "a, a", "the, the"],
+    correct: 1
+  },
+  {
+    category: "Articles",
+    question: "She has ___ MBA from ___ Harvard University.",
+    options: ["a, no article", "an, the", "the, the", "an, no article"],
+    correct: 3
+  },
+  {
+    category: "Articles",
+    question: "___ breakfast is ___ most important meal of ___ day.",
+    options: ["The, the, the", "No article, the, the", "A, a, a", "The, a, the"],
+    correct: 1
+  },
+  {
+    category: "Articles",
+    question: "He is ___ honorable man who always tells ___ truth.",
+    options: ["a, the", "an, the", "the, a", "no article, the"],
+    correct: 1
+  },
+
+  // Punctuation Questions (20)
+  {
+    category: "Punctuation",
+    question: "Choose the correctly punctuated sentence: 'Wow What a beautiful flower'",
+    options: [
+      "Wow, what a beautiful flower.",
+      "Wow! What a beautiful flower!",
+      "Wow? What a beautiful flower!",
+      "Wow! What a beautiful flower."
+    ],
+    correct: 1
+  },
+  {
+    category: "Punctuation",
+    question: "Fix the punctuation: 'my sister who is five years old loves ice cream'",
+    options: [
+      "My sister who is five years old loves ice cream.",
+      "My sister who is five years old, loves ice cream.",
+      "My sister, who is five years old, loves ice cream.",
+      "My sister who is five years old loves ice cream!",
+    ],
+    correct: 2
+  },
+  {
+    category: "Punctuation",
+    question: "Which sentence is correctly punctuated?",
+    options: [
+      "The colors of the rainbow are: red, orange, yellow, green, blue, indigo, and violet.",
+      "The colors of the rainbow are red, orange, yellow, green, blue, indigo and violet.",
+      "The colors of the rainbow are - red, orange, yellow, green, blue, indigo, and violet.",
+      "The colors of the rainbow are; red, orange, yellow, green, blue, indigo, and violet."
+    ],
+    correct: 0
+  },
+  {
+    category: "Punctuation",
+    question: "Choose the correctly punctuated sentence:",
+    options: [
+      "I need to buy eggs milk bread and cheese.",
+      "I need to buy eggs, milk, bread and cheese.",
+      "I need to buy eggs, milk, bread, and cheese.",
+      "I need to buy eggs; milk; bread; and cheese."
+    ],
+    correct: 2
+  },
+  {
+    category: "Punctuation",
+    question: "Which sentence uses apostrophes correctly?",
+    options: [
+      "The dogs bowl is empty.",
+      "The dog's bowl is empty.",
+      "The dogs' bowl is empty.",
+      "The dogs's bowl is empty."
+    ],
+    correct: 1
+  },
+  {
+    category: "Punctuation",
+    question: "Select the correctly punctuated sentence:",
+    options: [
+      "The childrens books are on the shelf.",
+      "The children's books are on the shelf.",
+      "The childrens' books are on the shelf.",
+      "The childrens's books are on the shelf."
+    ],
+    correct: 1
+  },
+  {
+    category: "Punctuation",
+    question: "Choose the sentence with correct punctuation:",
+    options: [
+      "Did you finish your homework asked mom.",
+      "\"Did you finish your homework?\" asked mom.",
+      "\"Did you finish your homework?\" asked Mom.",
+      "\"Did you finish your homework,\" asked Mom."
+    ],
+    correct: 2
+  },
+  {
+    category: "Punctuation",
+    question: "Which sentence has correct punctuation?",
+    options: [
+      "Its a beautiful day isn't it.",
+      "It's a beautiful day, isn't it?",
+      "Its a beautiful day, isn't it?",
+      "It's a beautiful day isn't it?"
+    ],
+    correct: 1
+  },
+  {
+    category: "Punctuation",
+    question: "Select the correctly punctuated sentence:",
+    options: [
+      "The meeting is scheduled for March 10 2023 at 2:30 pm.",
+      "The meeting is scheduled for March 10, 2023, at 2:30 PM.",
+      "The meeting is scheduled for March, 10, 2023 at 2:30 p.m.",
+      "The meeting is scheduled for March 10th 2023 at 2:30 P.M."
+    ],
+    correct: 1
+  },
+  {
+    category: "Punctuation",
+    question: "Choose the sentence with correct punctuation:",
+    options: [
+      "She said, \"Let's go to the park.\"",
+      "She said \"Let's go to the park.\"",
+      "She said, \"Let's go to the park\".",
+      "She said, \"Let's go to the park!\""
+    ],
+    correct: 0
+  },
+  {
+    category: "Punctuation",
+    question: "Which sentence uses commas correctly?",
+    options: [
+      "After we ate we went for a walk.",
+      "After we ate, we went for a walk.",
+      "After, we ate we went for a walk.",
+      "After we ate we went, for a walk."
+    ],
+    correct: 1
+  },
+  {
+    category: "Punctuation",
+    question: "Select the correctly punctuated sentence:",
+    options: [
+      "The package contained: a book, a pen, and a notebook.",
+      "The package contained a book, a pen and a notebook.",
+      "The package contained a book, a pen, and a notebook.",
+      "The package contained; a book, a pen, and a notebook."
+    ],
+    correct: 2
+  },
+  {
+    category: "Punctuation",
+    question: "Choose the sentence with correct punctuation:",
+    options: [
+      "The students bags were left in the classroom.",
+      "The student's bags were left in the classroom.",
+      "The students' bags were left in the classroom.",
+      "The students's bags were left in the classroom."
+    ],
+    correct: 2
+  },
+  {
+    category: "Punctuation",
+    question: "Which sentence uses quotation marks correctly?",
+    options: [
+      "She said that she was \"very tired\" after the long trip.",
+      "She said that she was 'very tired' after the long trip.",
+      "She said that she was (very tired) after the long trip.",
+      "She said that she was -very tired- after the long trip."
+    ],
+    correct: 0
+  },
+  {
+    category: "Punctuation",
+    question: "Select the correctly punctuated sentence:",
+    options: [
+      "The doctor asked \"How are you feeling today?\"",
+      "The doctor asked, \"How are you feeling today?\"",
+      "The doctor asked, \"how are you feeling today?\"",
+      "The doctor asked, \"How are you feeling today\"?"
+    ],
+    correct: 1
+  },
+  {
+    category: "Punctuation",
+    question: "Choose the sentence with correct punctuation:",
+    options: [
+      "The three colors of the Indian flag are saffron, white and green.",
+      "The three colors of the Indian flag are: saffron, white, and green.",
+      "The three colors of the Indian flag are - saffron, white, green.",
+      "The three colors of the Indian flag are; saffron, white, green."
+    ],
+    correct: 1
+  },
+  {
+    category: "Punctuation",
+    question: "Which sentence has correct punctuation?",
+    options: [
+      "Its time to go to bed children.",
+      "It's time to go to bed, children.",
+      "Its time to go to bed, children.",
+      "It's time to go to bed children."
+    ],
+    correct: 1
+  },
+  {
+    category: "Punctuation",
+    question: "Select the correctly punctuated sentence:",
+    options: [
+      "The womens shoes were on sale.",
+      "The women's shoes were on sale.",
+      "The womens' shoes were on sale.",
+      "The women shoes were on sale."
+    ],
+    correct: 1
+  },
+  {
+    category: "Punctuation",
+    question: "Choose the sentence with correct punctuation:",
+    options: [
+      "The book titled \"The Secret Garden\" is very popular.",
+      "The book titled 'The Secret Garden' is very popular.",
+      "The book titled (The Secret Garden) is very popular.",
+      "The book titled -The Secret Garden- is very popular."
+    ],
+    correct: 0
+  },
+  {
+    category: "Punctuation",
+    question: "Which sentence uses apostrophes correctly?",
+    options: [
+      "The cats toy is under the sofa.",
+      "The cat's toy is under the sofa.",
+      "The cats' toy is under the sofa.",
+      "The cats's toy is under the sofa."
+    ],
+    correct: 1
+  },
+
+  // Collective Nouns Questions (20)
+  {
+    category: "Collective Nouns",
+    question: "A group of lions is called a ____________.",
+    options: ["herd", "school", "pride", "pack"],
+    correct: 2
+  },
+  {
+    category: "Collective Nouns",
+    question: "A ____________ of fish swam past the coral reef.",
+    options: ["herd", "flock", "school", "pack"],
+    correct: 2
+  },
+  {
+    category: "Collective Nouns",
+    question: "We saw a ____________ of sheep grazing in the field.",
+    options: ["flock", "herd", "pack", "swarm"],
+    correct: 1
+  },
+  {
+    category: "Collective Nouns",
+    question: "A ____________ of bees was buzzing around the flowers.",
+    options: ["flock", "herd", "swarm", "pack"],
+    correct: 2
+  },
+  {
+    category: "Collective Nouns",
+    question: "The farmer kept a ____________ of cattle in the barn.",
+    options: ["flock", "herd", "pack", "school"],
+    correct: 1
+  },
+  {
+    category: "Collective Nouns",
+    question: "A ____________ of birds flew south for the winter.",
+    options: ["herd", "flock", "pack", "school"],
+    correct: 1
+  },
+  {
+    category: "Collective Nouns",
+    question: "The hikers saw a ____________ of wolves in the forest.",
+    options: ["herd", "flock", "pack", "swarm"],
+    correct: 2
+  },
+  {
+    category: "Collective Nouns",
+    question: "A ____________ of ants marched across the picnic blanket.",
+    options: ["herd", "colony", "flock", "pack"],
+    correct: 1
+  },
+  {
+    category: "Collective Nouns",
+    question: "The sailors saw a ____________ of dolphins jumping in the waves.",
+    options: ["herd", "flock", "pod", "pack"],
+    correct: 2
+  },
+  {
+    category: "Collective Nouns",
+    question: "A ____________ of geese flew in a V-formation overhead.",
+    options: ["gaggle", "herd", "pack", "school"],
+    correct: 0
+  },
+  {
+    category: "Collective Nouns",
+    question: "The zookeeper fed the ____________ of elephants.",
+    options: ["herd", "flock", "pack", "swarm"],
+    correct: 0
+  },
+  {
+    category: "Collective Nouns",
+    question: "We saw a ____________ of kangaroos hopping across the outback.",
+    options: ["troop", "herd", "flock", "pack"],
+    correct: 0
+  },
+  {
+    category: "Collective Nouns",
+    question: "A ____________ of owls nested in the old oak tree.",
+    options: ["parliament", "herd", "flock", "pack"],
+    correct: 0
+  },
+  {
+    category: "Collective Nouns",
+    question: "The gardener was annoyed by a ____________ of rabbits eating his vegetables.",
+    options: ["colony", "herd", "warren", "flock"],
+    correct: 2
+  },
+  {
+    category: "Collective Nouns",
+    question: "A ____________ of frogs lived in the pond behind our house.",
+    options: ["army", "herd", "flock", "pack"],
+    correct: 0
+  },
+  {
+    category: "Collective Nouns",
+    question: "The nature documentary showed a ____________ of penguins on the ice.",
+    options: ["colony", "herd", "flock", "pack"],
+    correct: 0
+  },
+  {
+    category: "Collective Nouns",
+    question: "We were surprised to see a ____________ of jellyfish in the shallow water.",
+    options: ["herd", "flock", "smack", "pack"],
+    correct: 2
+  },
+  {
+    category: "Collective Nouns",
+    question: "A ____________ of rhinoceroses charged at the safari vehicle.",
+    options: ["herd", "flock", "crash", "pack"],
+    correct: 2
+  },
+  {
+    category: "Collective Nouns",
+    question: "The children were delighted to see a ____________ of puppies at the pet store.",
+    options: ["herd", "flock", "litter", "pack"],
+    correct: 2
+  },
+  {
+    category: "Collective Nouns",
+    question: "A ____________ of crows gathered in the field.",
+    options: ["herd", "flock", "murder", "pack"],
+    correct: 2
+  },
+
+  // Unseen Comprehension (10 questions with passage)
+  {
+    category: "Unseen Comprehension",
+    passage: "The Arctic fox is a small fox native to the Arctic regions of the Northern Hemisphere. It has thick, warm fur that changes color with the seasons - white in winter to blend with snow, and brown or gray in summer to match the tundra's rocks and plants. Arctic foxes are omnivores, eating small mammals, birds, fish, and even berries. They have excellent hearing that allows them to locate prey moving under the snow. These foxes mate for life, and both parents help raise their young, called kits. Arctic foxes are well-adapted to survive in extremely cold temperatures as low as -50°C (-58°F).",
+    question: "Why does the Arctic fox's fur change color with the seasons?",
+    options: [
+      "To attract mates",
+      "To blend with its surroundings",
+      "To show its age",
+      "To regulate body temperature"
+    ],
+    correct: 1
+  },
+  {
+    category: "Unseen Comprehension",
+    passage: "The Arctic fox is a small fox native to the Arctic regions of the Northern Hemisphere. It has thick, warm fur that changes color with the seasons - white in winter to blend with snow, and brown or gray in summer to match the tundra's rocks and plants. Arctic foxes are omnivores, eating small mammals, birds, fish, and even berries. They have excellent hearing that allows them to locate prey moving under the snow. These foxes mate for life, and both parents help raise their young, called kits. Arctic foxes are well-adapted to survive in extremely cold temperatures as low as -50°C (-58°F).",
+    question: "What does 'omnivore' mean in this passage?",
+    options: [
+      "Eats only plants",
+      "Eats only meat",
+      "Eats both plants and animals",
+      "Doesn't need to eat"
+    ],
+    correct: 2
+  },
+  {
+    category: "Unseen Comprehension",
+    passage: "The Arctic fox is a small fox native to the Arctic regions of the Northern Hemisphere. It has thick, warm fur that changes color with the seasons - white in winter to blend with snow, and brown or gray in summer to match the tundra's rocks and plants. Arctic foxes are omnivores, eating small mammals, birds, fish, and even berries. They have excellent hearing that allows them to locate prey moving under the snow. These foxes mate for life, and both parents help raise their young, called kits. Arctic foxes are well-adapted to survive in extremely cold temperatures as low as -50°C (-58°F).",
+    question: "How does the Arctic fox find prey under the snow?",
+    options: [
+      "With its excellent sense of smell",
+      "With its excellent hearing",
+      "With its sharp claws",
+      "With its ability to dig quickly"
+    ],
+    correct: 1
+  },
+  {
+    category: "Unseen Comprehension",
+    passage: "The Arctic fox is a small fox native to the Arctic regions of the Northern Hemisphere. It has thick, warm fur that changes color with the seasons - white in winter to blend with snow, and brown or gray in summer to match the tundra's rocks and plants. Arctic foxes are omnivores, eating small mammals, birds, fish, and even berries. They have excellent hearing that allows them to locate prey moving under the snow. These foxes mate for life, and both parents help raise their young, called kits. Arctic foxes are well-adapted to survive in extremely cold temperatures as low as -50°C (-58°F).",
+    question: "What are baby Arctic foxes called?",
+    options: [
+      "Pups",
+      "Cubs",
+      "Kits",
+      "Chicks"
+    ],
+    correct: 2
+  },
+  {
+    category: "Unseen Comprehension",
+    passage: "The Arctic fox is a small fox native to the Arctic regions of the Northern Hemisphere. It has thick, warm fur that changes color with the seasons - white in winter to blend with snow, and brown or gray in summer to match the tundra's rocks and plants. Arctic foxes are omnivores, eating small mammals, birds, fish, and even berries. They have excellent hearing that allows them to locate prey moving under the snow. These foxes mate for life, and both parents help raise their young, called kits. Arctic foxes are well-adapted to survive in extremely cold temperatures as low as -50°C (-58°F).",
+    question: "What is the main purpose of the Arctic fox's thick fur?",
+    options: [
+      "To help it swim",
+      "To protect it from cold temperatures",
+      "To make it look bigger",
+      "To store food"
+    ],
+    correct: 1
+  },
+  {
+    category: "Unseen Comprehension",
+    passage: "The Arctic fox is a small fox native to the Arctic regions of the Northern Hemisphere. It has thick, warm fur that changes color with the seasons - white in winter to blend with snow, and brown or gray in summer to match the tundra's rocks and plants. Arctic foxes are omnivores, eating small mammals, birds, fish, and even berries. They have excellent hearing that allows them to locate prey moving under the snow. These foxes mate for life, and both parents help raise their young, called kits. Arctic foxes are well-adapted to survive in extremely cold temperatures as low as -50°C (-58°F).",
+    question: "Which of these is NOT mentioned as food for Arctic foxes?",
+    options: [
+      "Small mammals",
+      "Birds",
+      "Fish",
+      "Insects"
+    ],
+    correct: 3
+  },
+  {
+    category: "Unseen Comprehension",
+    passage: "The Arctic fox is a small fox native to the Arctic regions of the Northern Hemisphere. It has thick, warm fur that changes color with the seasons - white in winter to blend with snow, and brown or gray in summer to match the tundra's rocks and plants. Arctic foxes are omnivores, eating small mammals, birds, fish, and even berries. They have excellent hearing that allows them to locate prey moving under the snow. These foxes mate for life, and both parents help raise their young, called kits. Arctic foxes are well-adapted to survive in extremely cold temperatures as low as -50°C (-58°F).",
+    question: "What is unique about Arctic fox families?",
+    options: [
+      "The mothers raise the young alone",
+      "The fathers raise the young alone",
+      "Both parents help raise the young",
+      "The young are independent from birth"
+    ],
+    correct: 2
+  },
+  {
+    category: "Unseen Comprehension",
+    passage: "The Arctic fox is a small fox native to the Arctic regions of the Northern Hemisphere. It has thick, warm fur that changes color with the seasons - white in winter to blend with snow, and brown or gray in summer to match the tundra's rocks and plants. Arctic foxes are omnivores, eating small mammals, birds, fish, and even berries. They have excellent hearing that allows them to locate prey moving under the snow. These foxes mate for life, and both parents help raise their young, called kits. Arctic foxes are well-adapted to survive in extremely cold temperatures as low as -50°C (-58°F).",
+    question: "Where are Arctic foxes naturally found?",
+    options: [
+      "In tropical rainforests",
+      "In Arctic regions of the Northern Hemisphere",
+      "In African savannas",
+      "In Australian deserts"
+    ],
+    correct: 1
+  },
+  {
+    category: "Unseen Comprehension",
+    passage: "The Arctic fox is a small fox native to the Arctic regions of the Northern Hemisphere. It has thick, warm fur that changes color with the seasons - white in winter to blend with snow, and brown or gray in summer to match the tundra's rocks and plants. Arctic foxes are omnivores, eating small mammals, birds, fish, and even berries. They have excellent hearing that allows them to locate prey moving under the snow. These foxes mate for life, and both parents help raise their young, called kits. Arctic foxes are well-adapted to survive in extremely cold temperatures as low as -50°C (-58°F).",
+    question: "What is the lowest temperature mentioned that Arctic foxes can survive?",
+    options: [
+      "-10°C (14°F)",
+      "-30°C (-22°F)",
+      "-50°C (-58°F)",
+      "-70°C (-94°F)"
+    ],
+    correct: 2
+  },
+  {
+    category: "Unseen Comprehension",
+    passage: "The Arctic fox is a small fox native to the Arctic regions of the Northern Hemisphere. It has thick, warm fur that changes color with the seasons - white in winter to blend with snow, and brown or gray in summer to match the tundra's rocks and plants. Arctic foxes are omnivores, eating small mammals, birds, fish, and even berries. They have excellent hearing that allows them to locate prey moving under the snow. These foxes mate for life, and both parents help raise their young, called kits. Arctic foxes are well-adapted to survive in extremely cold temperatures as low as -50°C (-58°F).",
+    question: "What color is the Arctic fox's fur in summer?",
+    options: [
+      "White",
+      "Black",
+      "Brown or gray",
+      "Red"
+    ],
+    correct: 2
+  }
+];
+
+let currentQuestion = 0;
+let userAnswers = [];
+function renderQuiz() {
+    const question = questions[currentQuestion];
+    const total = questions.length;
+    let html = '';
+    html += `<div class="quiz-progress">${currentQuestion + 1}/${total}</div>`;
+    // Show passage if present
+    if (question.passage) {
+      html += `<div class="passage-box">${question.passage}</div>`;
+    }
+    html += `<div class="question-text">${question.question}</div>`;
+    html += `<div class="options">`;
+    question.options.forEach((option, idx) => {
+        let classes = '';
+        if (userAnswers[currentQuestion] !== undefined) {
+            if (idx === questions[currentQuestion].correct) classes += ' correct';
+            else if (idx === userAnswers[currentQuestion]) classes += ' incorrect';
+            classes += ' disabled';
+            if (idx === userAnswers[currentQuestion]) classes += ' selected';
+        } else if (idx === userAnswers[currentQuestion]) {
+            classes += ' selected';
+        }
+        html += `<div class="option${classes}" id="option-${idx}">
+            <span class="option-label">${String.fromCharCode(65+idx)}.</span> ${option}
+        </div>`;
+    });
+    html += `</div>`;
+    // Feedback
+    if (userAnswers[currentQuestion] !== undefined) {
+        const isCorrect = userAnswers[currentQuestion] === questions[currentQuestion].correct;
+        html += `<div class="feedback" style="margin-bottom:24px;${isCorrect ? 'color:#27ae60;' : 'color:#e74c3c;'}">
+            ${isCorrect ? '✔ That\'s right!' : `✖ Incorrect. The correct answer is <b>${question.options[question.correct]}</b>.`}
+        </div>`;
+    }
+    html += `<div class="hint-row" id="hintRow">Show hint <span class="hint-arrow">▼</span></div>`;
+    html += `<div class="hint-content" id="hintContent">No hint for this question.</div>`;
+    html += `<div class="next-row"><button class="btn" id="nextBtn"${userAnswers[currentQuestion] === undefined ? ' disabled' : ''}>${currentQuestion === total-1 ? 'Done' : 'Next'}</button></div>`;
+    document.getElementById('quizContent').innerHTML = html;
+    // Option click
+    if (userAnswers[currentQuestion] === undefined) {
+        question.options.forEach((option, idx) => {
+            document.getElementById(`option-${idx}`).addEventListener('click', () => selectAnswer(idx));
+        });
+    }
+    // Hint toggle
+    document.getElementById('hintRow').addEventListener('click', () => {
+        const hintRow = document.getElementById('hintRow');
+        const hintContent = document.getElementById('hintContent');
+        hintRow.classList.toggle('open');
+        if (hintRow.classList.contains('open')) {
+            hintContent.style.display = 'block';
+        } else {
+            hintContent.style.display = 'none';
+        }
+    });
+    // Next button
+    document.getElementById('nextBtn').addEventListener('click', () => {
+        if (currentQuestion < total-1) {
+            currentQuestion++;
+            renderQuiz();
+        } else {
+            showResults();
+        }
+    });
+}
+function selectAnswer(idx) {
+    if (userAnswers[currentQuestion] !== undefined) return;
+    userAnswers[currentQuestion] = idx;
+    renderQuiz();
+}
+function showResults() {
+  let score = 0, right = 0, wrong = 0, skipped = 0;
+  questions.forEach((q, i) => {
+    if (userAnswers[i] === q.correct) { score++; right++; }
+    else if (userAnswers[i] === undefined) { skipped++; }
+    else { wrong++; }
+  });
+  const accuracy = Math.round((score / questions.length) * 100);
+
+  document.getElementById('quizContent').innerHTML = `
+    <div class="result-header">You did it! Quiz complete</div>
+    <div class="result-cards">
+      <div class="result-card">
+        <div class="result-value">${score}/${questions.length}</div>
+        <div class="result-label">Score</div>
+      </div>
+      <div class="result-card">
+        <div class="result-value">${accuracy}%</div>
+        <div class="result-label">Accuracy</div>
+      </div>
+      <div class="result-card">
+        <div class="result-value">Right<br>${right}</div>
+        <div class="result-sub">Wrong ${wrong}<br>Skipped ${skipped}</div>
+      </div>
+    </div>
+
+    <div class="result-btn-row"><button class="btn" onclick="restartQuiz()">Try Again</button></div>
+  `;
+}
+function restartQuiz() {
+    currentQuestion = 0;
+    userAnswers = [];
+    renderQuiz();
+}
+document.addEventListener('DOMContentLoaded', renderQuiz);
+    </script>
+</body>
+</html>

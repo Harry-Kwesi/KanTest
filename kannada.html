@@ -1,0 +1,1125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kannada Quiz - Grade 3</title>
+    <style>
+@import url('https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,100..900;1,100..900&display=swap');
+        :root {
+            --primary: #4ecdc4;
+            --secondary: #1b1c1d;
+            --accent: #ff6b6b;
+            --card-bg: #181a20;
+            --option-bg: #23272f;
+            --option-hover: #31343c;
+            --correct: #27ae60;
+            --incorrect: #e74c3c;
+            --text: #f5f6fa;
+            --muted: #b2becd;
+        }
+        html, body {
+            height: 100%;
+        }
+        body {
+            min-height: 100vh;
+            background: var(--secondary);
+            color: var(--text);
+            font-family: 'Public Sans', 'Segoe UI', Arial, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+        }
+        .container {
+            background: var(--secondary);
+            border-radius: 18px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.45);
+            max-width: 700px;
+            width: 100%;
+            padding: 0 0 32px 0;
+            margin: 32px 0;
+            font-family: 'Public Sans', 'Segoe UI', Arial, sans-serif;
+        }
+        .quiz-header {
+            padding: 32px 32px 16px 32px;
+            border-radius: 18px 18px 0 0;
+            background: var(--option-bg);
+            text-align: left;
+        }
+        .quiz-title {
+            font-size: 1.3em;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+        .quiz-progress {
+            font-size: 1em;
+            color: var(--muted);
+            margin-bottom: 0;
+        }
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: #2d313a;
+            border-radius: 3px;
+            margin: 16px 0 0 0;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            width: 0%;
+            transition: width 0.4s cubic-bezier(.4,2,.6,1);
+        }
+        .question-section {
+            padding: 32px 32px 0 32px;
+        }
+        .question-number {
+            font-size: 1.1em;
+            color: var(--primary);
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .question-text {
+            font-size: 1.25em;
+            font-weight: 600;
+            margin-bottom: 24px;
+            color: var(--text);
+        }
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .option {
+            background: var(--option-bg);
+            border: 2px solid transparent;
+            border-radius: 12px;
+            padding: 18px 20px;
+            font-size: 1.1em;
+            font-weight: 500;
+            color: var(--text);
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(.4,2,.6,1);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            position: relative;
+            text-align: left;
+        }
+        .option.selected {
+            border-color: var(--primary);
+            background: var(--option-hover);
+        }
+        .option.correct {
+            border-color: var(--correct);
+            background: rgba(39, 174, 96, 0.12);
+            color: var(--correct);
+        }
+        .option.incorrect {
+            border-color: var(--incorrect);
+            background: rgba(231, 76, 60, 0.12);
+            color: var(--incorrect);
+        }
+        .option.disabled {
+            pointer-events: none;
+            opacity: 0.7;
+        }
+        .feedback {
+            margin-top: 20px;
+            padding: 18px 20px;
+            border-radius: 10px;
+            font-weight: 500;
+            font-size: 1.05em;
+            display: none;
+        }
+        .feedback.correct {
+            background: rgba(39, 174, 96, 0.18);
+            color: var(--correct);
+            border: 1.5px solid var(--correct);
+            display: block;
+        }
+        .feedback.incorrect {
+            background: rgba(231, 76, 60, 0.18);
+            color: var(--incorrect);
+            border: 1.5px solid var(--incorrect);
+            display: block;
+        }
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 32px 32px 0 32px;
+            gap: 12px;
+        }
+        .btn {
+            padding: 12px 32px;
+            border: none;
+            border-radius: 24px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(.4,2,.6,1);
+            background: var(--primary);
+            color: #fff;
+        }
+        .btn.secondary {
+            background: #353945;
+            color: var(--muted);
+        }
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .results {
+            text-align: center;
+            padding: 48px 32px 32px 32px;
+        }
+        .score {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 16px;
+        }
+        .score-message {
+            font-size: 1.2em;
+            margin-bottom: 24px;
+            color: var(--text);
+        }
+        .category-breakdown {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 18px;
+            margin-top: 24px;
+        }
+        .category-score {
+            background: var(--option-bg);
+            border-radius: 10px;
+            padding: 16px;
+            border-left: 4px solid var(--primary);
+        }
+        .category-score h3 {
+            color: var(--text);
+            margin-bottom: 8px;
+            font-size: 1.1em;
+        }
+        .category-score p {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: var(--primary);
+        }
+        .restart-btn {
+            background: var(--accent);
+            color: white;
+            margin-top: 32px;
+        }
+        .restart-btn:hover {
+            background: #ff5252;
+        }
+        @media (max-width: 600px) {
+            .container {
+                max-width: 100vw;
+                border-radius: 0;
+                margin: 0;
+            }
+            .quiz-header, .question-section, .results, .nav-buttons {
+                padding-left: 16px;
+                padding-right: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="quiz-header">
+            <div class="quiz-title">Kannada Quiz - Grade 3</div>
+            <div class="quiz-progress" id="quizProgress">Question 1/105</div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="score-realtime" id="scoreRealtime" style="text-align:right; font-size:1.1em; margin-top:8px;">
+              Score: 0/0 (0%)
+            </div>
+        </div>
+        <div id="quizMain">
+            <div class="question-section" id="questionSection">
+                <!-- Question and options will be rendered here -->
+            </div>
+            <div class="nav-buttons">
+                <button class="btn secondary" id="prevBtn">Back</button>
+                <button class="btn" id="nextBtn">Next</button>
+            </div>
+        </div>
+        <div id="results" class="results" style="display:none;">
+            <div class="score" id="finalScore"></div>
+            <div class="score-message" id="scoreMessage"></div>
+            <div class="category-breakdown" id="categoryBreakdown"></div>
+            <button class="btn restart-btn" id="restartBtn">Try Again! 🎯</button>
+        </div>
+    </div>
+    <script>
+        // Quiz questions data
+        const questions = [
+            // Gunitakshara Questions (25 questions)
+            {
+    category: "Gunitakshara",
+    question: "What is the result of ಕ್ + ಆ?",
+    options: ['ಕ', 'ಕಾ', 'ಕಿ', 'ಕು'],
+    correct: 1
+  },
+  {
+    category: "Gunitakshara",
+    question: "Which vowel symbol is used to form 'ಕು'?",
+    options: ['ಾ', 'ು', 'ಿ', 'ೆ'],
+    correct: 1
+  },
+  {
+    category: "Gunitakshara",
+    question: "What is the transliteration for 'ಗೀ'?",
+    options: ['gi', 'gu', 'gee', 'ga'],
+    correct: 2
+  },
+  {
+    category: "Gunitakshara",
+    question: "What is the result of ಕ್ + ಇ?",
+    options: ['ಕಿ', 'ಕೆ', 'ಕ', 'ಕು'],
+    correct: 0
+  },
+  {
+    category: "Gunitakshara",
+    question: "What is the result of ಗ್ + ಊ?",
+    options: ['ಗೂ', 'ಗೆ', 'ಗಿ', 'ಗಾ'],
+    correct: 0
+  },
+  {
+    category: "Gunitakshara",
+    question: "What is the vowel symbol used to form 'ಕೀ'?",
+    options: ['ಾ', 'ೀ', 'ೆ', 'ು'],
+    correct: 1
+  },
+  {
+    category: "Gunitakshara",
+    question: "Which of these means 'ಕೃ'?",
+    options: ['ಕ್ + ಋ', 'ಕ್ + ಇ', 'ಕ್ + ಅಂ', 'ಕ್ + ಎ'],
+    correct: 0
+  },
+  {
+    category: "Gunitakshara",
+    question: "Which Guṇitākṣara is formed from ನ್ + ಎ?",
+    options: ['ನಿ', 'ನ', 'ನೆ', 'ನು'],
+    correct: 2
+  },
+  {
+    category: "Gunitakshara",
+    question: "What do you get when you combine ತ್ + ಓ?",
+    options: ['ತೂ', 'ತೋ', 'ತಾ', 'ತೆ'],
+    correct: 1
+  },
+  {
+    category: "Gunitakshara",
+    question: "Which symbol represents the vowel for 'ಹಾ'?",
+    options: ['ಾ', 'ಿ', 'ಾಂ', 'ೋ'],
+    correct: 0
+  },
+  {
+    category: "Gunitakshara",
+    question: "What is the result of ಬ್ + ಅಂ?",
+    options: ['ಬು', 'ಬಾ', 'ಬಂ', 'ಬೆ'],
+    correct: 2
+  },
+  {
+    category: "Gunitakshara",
+    question: "What does 'ಮೆ' represent?",
+    options: ['ಮ್ + ಅ', 'ಮ್ + ಎ', 'ಮ್ + ಇ', 'ಮ್ + ಊ'],
+    correct: 1
+  },
+  {
+    category: "Gunitakshara",
+    question: "What is the transliteration for 'ರೋ'?",
+    options: ['ra', 'ri', 'roo', 'ro'],
+    correct: 3
+  },
+  {
+    category: "Gunitakshara",
+    question: "Which of the following is a combination of ದ್ + ಈ?",
+    options: ['ದು', 'ದೀ', 'ದೇ', 'ದಿ'],
+    correct: 1
+  },
+  {
+    category: "Gunitakshara",
+    question: "Which is formed by ಜ್ + ಐ?",
+    options: ['ಜೈ', 'ಜಾ', 'ಜೆ', 'ಜೌ'],
+    correct: 0
+  },
+  {
+    category: "Gunitakshara",
+    question: "What is the result of ಸ್ + ಊ?",
+    options: ['ಸು', 'ಸೂ', 'ಸಾ', 'ಸಿ'],
+    correct: 1
+  },
+  {
+    category: "Gunitakshara",
+    question: "Which Guṇitākṣara comes from ಲ್ + ಉ?",
+    options: ['ಲ', 'ಲು', 'ಲಿ', 'ಲೂ'],
+    correct: 1
+  },
+  {
+    category: "Gunitakshara",
+    question: "Which vowel symbol is used in 'ಟಿ'?",
+    options: ['ಿ', 'ು', 'ಾ', 'ೆ'],
+    correct: 0
+  },
+  {
+    category: "Gunitakshara",
+    question: "Transliteration of 'ಬೇ' is:",
+    options: ['bee', 'be', 'bai', 'boo'],
+    correct: 1
+  },
+  {
+    category: "Gunitakshara",
+    question: "How is 'ತು' formed?",
+    options: ['ತ್ + ಉ', 'ತ್ + ಊ', 'ತ್ + ಅ', 'ತ್ + ಎ'],
+    correct: 0
+  },
+  {
+    category: "Gunitakshara",
+    question: "What is the vowel symbol used for 'ಎ'?",
+    options: ['ೆ', 'ಾ', 'ಿ', 'ೀ'],
+    correct: 0
+  },
+  {
+    category: "Gunitakshara",
+    question: "Which one represents 'ದೆ'?",
+    options: ['ದ್ + ಇ', 'ದ್ + ಎ', 'ದ್ + ಉ', 'ದ್ + ಓ'],
+    correct: 1
+  },
+  {
+    category: "Gunitakshara",
+    question: "Choose the correct Guṇitākṣara for 'ನ್ + ಐ'",
+    options: ['ನೇ', 'ನೈ', 'ನೀ', 'ನೌ'],
+    correct: 1
+  },
+  {
+    category: "Gunitakshara",
+    question: "What is the correct Kannada letter for 'ru'?",
+    options: ['ರು', 'ರಾ', 'ರಿ', 'ರೆ'],
+    correct: 0
+  },
+  {
+    category: "Gunitakshara",
+    question: "Which symbol represents the vowel for 'ಊ'?",
+    options: ['ೂ', 'ು', 'ೋ', 'ಾ'],
+    correct: 0
+  },
+
+            // Ottaksharagalu Questions (25 questions)
+       // Ottakshara Questions (25 questions)
+{
+  category: "Ottakshara",
+  question: "What is the result of ನ್ + ನ್?",
+  options: ['ನ್ನ', 'ನ', 'ನನು', 'ನಃ'],
+  correct: 0
+},
+{
+  category: "Ottakshara",
+  question: "Which of the following has an ottakshara?",
+  options: ['ಅಮ್ಮ', 'ಅಕು', 'ಅನು', 'ಅತಿ'],
+  correct: 0
+},
+{
+  category: "Ottakshara",
+  question: "Choose the word with the ottakshara ‘ಕ್ಕ’:",
+  options: ['ಕವಿ', 'ಹಕ್ಕಿ', 'ಕುಡಿಗೆ', 'ನದಿ'],
+  correct: 1
+},
+{
+  category: "Ottakshara",
+  question: "What is the result of ಜ್ + ಜ್?",
+  options: ['ಜ', 'ಜಾ', 'ಜ್ಜ', 'ಜು'],
+  correct: 2
+},
+{
+  category: "Ottakshara",
+  question: "How is the word ಅಜ್ಜ split?",
+  options: ['ಅ + ಜ್ + ಜ್ + ಅ', 'ಅ + ಜ + ಜ', 'ಅ + ಜ್', 'ಅ + ಜ'],
+  correct: 0
+},
+{
+  category: "Ottakshara",
+  question: "Which of these words has the ottakshara ‘ತ್ತ’?",
+  options: ['ಬಿಟ್ಟ', 'ತಲಿ', 'ನದಿ', 'ಮನೆ'],
+  correct: 0
+},
+{
+  category: "Ottakshara",
+  question: "What is the result of ಪ್ + ಪ್?",
+  options: ['ಪ್ಪ', 'ಪಪ', 'ಪಾ', 'ಪ'],
+  correct: 0
+},
+{
+  category: "Ottakshara",
+  question: "Select the word with ottakshara ‘ಮ್ಮ’:",
+  options: ['ಅಮ್ಮ', 'ಅನು', 'ಅಕ್ಕ', 'ಅಪ್ಪ'],
+  correct: 0
+},
+{
+  category: "Ottakshara",
+  question: "What is the result of ಯ್ + ಯ್?",
+  options: ['ಯ್ಯ', 'ಯಯ', 'ಯಾ', 'ಯ'],
+  correct: 0
+},
+{
+  category: "Ottakshara",
+  question: "Find the ottakshara in the word ಹಗ್ಗ:",
+  options: ['ಗ್ಗ', 'ಗ್ಗಾ', 'ಗ', 'ಗಾ'],
+  correct: 0
+},
+{
+  category: "Ottakshara",
+  question: "What do you get when you combine ಶ್ + ರ?",
+  options: ['ಶ್ರ', 'ಶರ್', 'ಸ್ರ', 'ಶರ'],
+  correct: 0
+},
+{
+  category: "Ottakshara",
+  question: "Which word contains ‘ಪ್ಟ’?",
+  options: ['ಹೆಟ್ಟ', 'ಪಟಟ', 'ಪಟ್ಟು', 'ಪಟಿ'],
+  correct: 2
+},
+{
+  category: "Ottakshara",
+  question: "What is the result of ಣ್ + ಣ್?",
+  options: ['ಣ್ಣ', 'ಣಣ', 'ಣ', 'ಣಾ'],
+  correct: 0
+},
+{
+  category: "Ottakshara",
+  question: "How is the word ಅಕ್ಕ split?",
+  options: ['ಅ + ಕ್ + ಕ್ + ಅ', 'ಅ + ಕ್ + ಕ್', 'ಅ + ಕಾ', 'ಅ + ಕ'],
+  correct: 1
+},
+{
+  category: "Ottakshara",
+  question: "Which ottakshara is found in the word ತಕ್ಕಳು?",
+  options: ['ಕ್ಕ', 'ಕ್ಕಾ', 'ಕ', 'ಕ್ಕು'],
+  correct: 0
+},
+{
+  category: "Ottakshara",
+  question: "Choose the word with ‘ಬ್ಬ’:",
+  options: ['ಬೆಬ್ಬ', 'ಬಬ್ಬು', 'ಉಬ್ಬ', 'ಬುಬ್ಬ'],
+  correct: 2
+},
+{
+  category: "Ottakshara",
+  question: "What is the ottakshara in the word ಮುತ್ತು?",
+  options: ['ತ್ತ', 'ತ್ತಿ', 'ತತು', 'ತು'],
+  correct: 0
+},
+{
+  category: "Ottakshara",
+  question: "Which of these words contains the ottakshara ‘ಚ್ಚ’?",
+  options: ['ಚೆಚ್ಚು', 'ಚೆಚು', 'ಚೇಚು', 'ಚಚ'],
+  correct: 0
+},
+{
+  category: "Ottakshara",
+  question: "What is formed by combining ತ್ + ತ್?",
+  options: ['ತ್ತ', 'ತತ', 'ತ', 'ತಾ'],
+  correct: 0
+},
+{
+  category: "Ottakshara",
+  question: "Which of these does **not** have an ottakshara?",
+  options: ['ಅಜ್ಜಿ', 'ಅತ್ತೆ', 'ಅವಿ', 'ಅಕ್ಕ'],
+  correct: 2
+},
+{
+  category: "Ottakshara",
+  question: "Choose the word with the ottakshara ‘ಗ್ಗ’:",
+  options: ['ಹಗ್ಗ', 'ಹಗಗು', 'ಹಗಿ', 'ಹಾಗ'],
+  correct: 0
+},
+{
+  category: "Ottakshara",
+  question: "Split the word ಅಜ್ಜಿ:",
+  options: ['ಅ + ಜ್ + ಜಿ', 'ಅ + ಜ + ಜಿ', 'ಅ + ಜ್ + ಜ್ + ಇ', 'ಅ + ಜ್ + ಜ್ + ಇ'],
+  correct: 3
+},
+{
+  category: "Ottakshara",
+  question: "Which ottakshara is used in the word ಉಡ್ಡಯಾನ?",
+  options: ['ಡ್ಡ', 'ಡಡ', 'ಡ್ಡಾ', 'ಡ'],
+  correct: 0
+},
+{
+  category: "Ottakshara",
+  question: "What is the result of ಮ್ + ಮ್?",
+  options: ['ಮ್ಮ', 'ಮ', 'ಮಮ', 'ಮಾ'],
+  correct: 0
+},
+{
+  category: "Ottakshara",
+  question: "Choose the word that contains ottakshara ‘ಶ್ರ’:",
+  options: ['ಶ್ರದ್ಧೆ', 'ಶರದ', 'ಶೂರ', 'ಶೀಲ'],
+  correct: 0
+},
+
+
+            // Kannada Ankigalu (25 questions)
+            // Kannada Ankigalu Questions (25 questions)
+{
+  category: "Kannada Ankigalu",
+  question: "What is the Kannada symbol for number 1?",
+  options: ['೧', '೧೦', '೧೦೦', '೨'],
+  correct: 0
+},
+{
+  category: "Kannada Ankigalu",
+  question: "Which of the following means 3 in Kannada?",
+  options: ['೩', '೫', '೬', '೬೩'],
+  correct: 0
+},
+{
+  category: "Kannada Ankigalu",
+  question: "What number is represented by '೮'?",
+  options: ['8', '3', '5', '2'],
+  correct: 0
+},
+{
+  category: "Kannada Ankigalu",
+  question: "Which Kannada digit stands for 0?",
+  options: ['೦', '೧', '೧೦', '೦೦'],
+  correct: 0
+},
+{
+  category: "Kannada Ankigalu",
+  question: "What is '೧೦' in Kannada numerals?",
+  options: ['Ten', 'One', 'One Hundred', 'Zero'],
+  correct: 0
+},
+{
+  category: "Kannada Ankigalu",
+  question: "Which of these is the Kannada symbol for 5?",
+  options: ['೫', '೬', '೩', '೭'],
+  correct: 0
+},
+{
+  category: "Kannada Ankigalu",
+  question: "Select the Kannada numeral for 9.",
+  options: ['೯', '೫', '೩', '೧'],
+  correct: 0
+},
+{
+  category: "Kannada Ankigalu",
+  question: "What does '೨' represent?",
+  options: ['2', '5', '7', '4'],
+  correct: 0
+},
+{
+  category: "Kannada Ankigalu",
+  question: "How is the number 4 written in Kannada?",
+  options: ['೪', '೫', '೮', '೩'],
+  correct: 0
+},
+{
+  category: "Kannada Ankigalu",
+  question: "Which of these means 6?",
+  options: ['೬', '೫', '೪', '೭'],
+  correct: 0
+},
+{
+  category: "Kannada Ankigalu",
+  question: "What is 7 in Kannada numerals?",
+  options: ['೭', '೮', '೬', '೯'],
+  correct: 0
+},
+{
+  category: "Kannada Ankigalu",
+  question: "Which numeral is '೩'?",
+  options: ['3', '5', '2', '9'],
+  correct: 0
+},
+{
+  category: "Kannada Ankigalu",
+  question: "Choose the Kannada numeral for 100.",
+  options: ['೧೦೦', '೧೦', '೧', '೦'],
+  correct: 0
+},
+{
+  category: "Kannada Ankigalu",
+  question: "Which symbol shows 50 in Kannada?",
+  options: ['೫೦', '೦೫', '೫', '೦೫೦'],
+  correct: 0
+},
+{
+  category: "Kannada Ankigalu",
+  question: "How is 20 written in Kannada?",
+  options: ['೨೦', '೨೦೦', '೨', '೦೨'],
+  correct: 0
+},
+{
+  category: "Kannada Ankigalu",
+  question: "What number is '೧೯'?",
+  options: ['19', '9', '10', '11'],
+  correct: 0
+},
+{
+  category: "Kannada Ankigalu",
+  question: "Choose the correct Kannada numeral for 11.",
+  options: ['೧೧', '೧', '೧೦', '೦೧'],
+  correct: 0
+},
+{
+  category: "Kannada Ankigalu",
+  question: "How is 12 represented in Kannada?",
+  options: ['೧೨', '೨೧', '೨೦', '೨೧೦'],
+  correct: 0
+},
+{
+  category: "Kannada Ankigalu",
+  question: "Which digit comes after '೬'?",
+  options: ['೭', '೮', '೫', '೯'],
+  correct: 0
+},
+{
+  category: "Kannada Ankigalu",
+  question: "Which digit comes before '೫'?",
+  options: ['೪', '೬', '೭', '೮'],
+  correct: 0
+},
+{
+  category: "Kannada Ankigalu",
+  question: "Which of these is not a valid Kannada numeral?",
+  options: ['೯೯೯', '೯೩', '೯೦', '೯A'],
+  correct: 3
+},
+{
+  category: "Kannada Ankigalu",
+  question: "Choose the correct Kannada symbol for 60.",
+  options: ['೬೦', '೦೬', '೦೬೦', '೬'],
+  correct: 0
+},
+{
+  category: "Kannada Ankigalu",
+  question: "What is the Kannada symbol for 15?",
+  options: ['೧೫', '೧', '೫', '೧೦'],
+  correct: 0
+},
+{
+  category: "Kannada Ankigalu",
+  question: "Choose the Kannada numeral for 99.",
+  options: ['೯೯', '೯', '೯೦', '೮೯'],
+  correct: 0
+},
+{
+  category: "Kannada Ankigalu",
+  question: "What is '೦೦'?",
+  options: ['Zero', 'Hundred', 'Ten', 'Twenty'],
+  correct: 0
+},
+
+
+            // Ardha Vyanjana (15 questions)
+// Ardha Vyanjana Questions (15 questions)
+{
+  category: "Ardha Vyanjana",
+  question: "Which is a half consonant in Kannada?",
+  options: ['ನ್', 'ನ', 'ನಾ', 'ನಿ'],
+  correct: 0
+},
+{
+  category: "Ardha Vyanjana",
+  question: "Which of these is a consonant without vowel sound?",
+  options: ['ಕ್', 'ಕ', 'ಕಿ', 'ಕು'],
+  correct: 0
+},
+{
+  category: "Ardha Vyanjana",
+  question: "Choose the half form of 'ದ್':",
+  options: ['ದ್', 'ದ', 'ದಾ', 'ದು'],
+  correct: 0
+},
+{
+  category: "Ardha Vyanjana",
+  question: "What is the function of an ardhavyanjana?",
+  options: ['Forms compound consonants', 'Represents a full sound', 'Is a swara', 'Ends a word'],
+  correct: 0
+},
+{
+  category: "Ardha Vyanjana",
+  question: "Which letter is not an ardhavyanjana?",
+  options: ['ಕ', 'ಕ್', 'ನ್', 'ತ್'],
+  correct: 0
+},
+{
+  category: "Ardha Vyanjana",
+  question: "What does 'ತ್ + ತ' form?",
+  options: ['ತ್ತ', 'ತಾ', 'ತ', 'ತತ'],
+  correct: 0
+},
+{
+  category: "Ardha Vyanjana",
+  question: "Which one of these is not a half consonant?",
+  options: ['ಗ', 'ಕ್', 'ಜ್', 'ನ್'],
+  correct: 0
+},
+{
+  category: "Ardha Vyanjana",
+  question: "What is the purpose of '್' (virama) symbol?",
+  options: ['To suppress the vowel', 'To elongate sound', 'To form plural', 'To show nasal sound'],
+  correct: 0
+},
+{
+  category: "Ardha Vyanjana",
+  question: "Which half consonant joins with 'ರ' to form 'ಕ್ರ'?",
+  options: ['ಕ್', 'ಕ್‌', 'ರ', 'ಕ'],
+  correct: 0
+},
+{
+  category: "Ardha Vyanjana",
+  question: "Choose the correct combination for 'ತ್ರ':",
+  options: ['ತ್ + ರ', 'ತ + ರ್', 'ಟ + ರ', 'ತ್ + ತ'],
+  correct: 0
+},
+{
+  category: "Ardha Vyanjana",
+  question: "Which word contains a half letter?",
+  options: ['ಮುತ್ತು', 'ಮೂಲೆ', 'ಮನೆ', 'ಮಗು'],
+  correct: 0
+},
+{
+  category: "Ardha Vyanjana",
+  question: "What do you get when combining ಬ್ + ರ?",
+  options: ['ಬ್ರ', 'ಬರ', 'ಬರ್', 'ಬ್ರಾ'],
+  correct: 0
+},
+{
+  category: "Ardha Vyanjana",
+  question: "In the word 'ಅಜ್ಜಿ', which letter is half?",
+  options: ['ಜ್', 'ಅ', 'ಜಿ', 'ಜ'],
+  correct: 0
+},
+{
+  category: "Ardha Vyanjana",
+  question: "Which of these is a conjunct using half consonant?",
+  options: ['ತ್ತ', 'ತ್ತಿ', 'ತತಿ', 'ತಟ'],
+  correct: 0
+},
+{
+  category: "Ardha Vyanjana",
+  question: "What is the half form of 'ಬ'?",
+  options: ['ಬ್', 'ಬು', 'ಬಿ', 'ಬಾ'],
+  correct: 0
+},
+
+
+            // Swara Sanketa (15 questions)
+// Swara Sanketa Questions (15 questions)
+{
+  category: "Swara Sanketa",
+  question: "Which symbol represents the vowel 'ಆ'?",
+  options: ['ಾ', 'ಿ', 'ು', 'ೆ'],
+  correct: 0
+},
+{
+  category: "Swara Sanketa",
+  question: "Choose the correct swara sanketa for 'ಊ'?",
+  options: ['ೂ', 'ು', 'ಾ', 'ೀ'],
+  correct: 0
+},
+{
+  category: "Swara Sanketa",
+  question: "What is the swara symbol used in the letter 'ಕಿ'?",
+  options: ['ಿ', 'ಾ', 'ೆ', 'ು'],
+  correct: 0
+},
+{
+  category: "Swara Sanketa",
+  question: "Which swara sanketa makes the sound 'ಈ'?",
+  options: ['ೀ', 'ೆ', 'ೇ', 'ೀಂ'],
+  correct: 0
+},
+{
+  category: "Swara Sanketa",
+  question: "Which of these is the swara sanketa for 'ಓ'?",
+  options: ['ೋ', 'ೌ', 'ಾ', 'ೆ'],
+  correct: 0
+},
+{
+  category: "Swara Sanketa",
+  question: "Choose the correct swara sanketa used in 'ಸು':",
+  options: ['ು', 'ೂ', 'ುಂ', 'ೂಂ'],
+  correct: 0
+},
+{
+  category: "Swara Sanketa",
+  question: "Which symbol is used to represent the vowel 'ಐ'?",
+  options: ['ೖ', 'ೈ', 'ೈ', 'ೈಂ'],
+  correct: 1
+},
+{
+  category: "Swara Sanketa",
+  question: "The swara sanketa 'ೆ' adds which vowel sound?",
+  options: ['ಎ', 'ಅ', 'ಆ', 'ಇ'],
+  correct: 0
+},
+{
+  category: "Swara Sanketa",
+  question: "What is the swara sanketa used in 'ತೇ'?",
+  options: ['ೇ', 'ೆ', 'ೇ', 'ೈ'],
+  correct: 0
+},
+{
+  category: "Swara Sanketa",
+  question: "Choose the correct symbol for 'ಅಂ':",
+  options: ['ಂ', 'ಃ', 'ಾ', 'ು'],
+  correct: 0
+},
+{
+  category: "Swara Sanketa",
+  question: "What is the symbol for 'ಅಃ'?",
+  options: ['ಃ', 'ಂ', 'ಾ', 'ು'],
+  correct: 0
+},
+{
+  category: "Swara Sanketa",
+  question: "Which of these represents the long 'ಋ'?",
+  options: ['ೠ', 'ೃ', 'ೃೕ', 'ೃಃ'],
+  correct: 1
+},
+{
+  category: "Swara Sanketa",
+  question: "Which swara sanketa is used in 'ಹೌ'?",
+  options: ['ೌ', 'ೋ', 'ಾ', 'ೆ'],
+  correct: 0
+},
+{
+  category: "Swara Sanketa",
+  question: "What is the difference between 'ು' and 'ೂ'?",
+  options: ['Short vs Long U', 'A vs Aa', 'I vs Ee', 'None'],
+  correct: 0
+},
+{
+  category: "Swara Sanketa",
+  question: "Which swara sanketa represents 'ಏ'?",
+  options: ['ೇ', 'ೆ', 'ೈ', 'ಾ'],
+  correct: 0
+}
+ 
+        ];
+
+        let currentQuestion = 0;
+        let userAnswers = [];
+        let score = 0;
+        let categoryScores = {};
+
+        function initializeQuiz() {
+            // Initialize category scores
+            const categories = [...new Set(questions.map(q => q.category))];
+            categories.forEach(category => {
+                categoryScores[category] = { correct: 0, total: 0 };
+            });
+
+            // Add event listeners to buttons
+            document.getElementById('prevBtn').addEventListener('click', previousQuestion);
+            document.getElementById('nextBtn').addEventListener('click', nextQuestion);
+            document.getElementById('restartBtn').addEventListener('click', restartQuiz);
+
+            loadQuestion();
+            updateProgress();
+            updateNavButtons();
+            updateRealtimeScore(); // Initialize real-time score
+        }
+
+        function loadQuestion() {
+            const question = questions[currentQuestion];
+            const section = document.getElementById('questionSection');
+            
+            section.innerHTML = `
+                <div class="question-number">${question.category} &bull; Question ${currentQuestion + 1} of ${questions.length}</div>
+                <div class="question-text">${question.question}</div>
+                <div class="options">
+                    ${question.options.map((option, index) => `
+                        <div class="option" id="option-${index}">
+                            <span style="font-weight:600;">${String.fromCharCode(65+index)}.</span> ${option}
+                        </div>
+                    `).join('')}
+                </div>
+                <div class="feedback" id="feedback"></div>
+            `;
+
+            // Add event listeners to options
+            question.options.forEach((option, index) => {
+                document.getElementById(`option-${index}`).addEventListener('click', () => selectAnswer(index));
+            });
+
+            // Show previous answer if exists
+            if (userAnswers[currentQuestion] !== undefined) {
+                showAnswer(userAnswers[currentQuestion]);
+            }
+            updateRealtimeScore(); // Update real-time score after loading a question
+        }
+
+        function selectAnswer(selectedIndex) {
+            // Don't allow changing answer if already answered
+            if (userAnswers[currentQuestion] !== undefined) {
+                return;
+            }
+
+            userAnswers[currentQuestion] = selectedIndex;
+            showAnswer(selectedIndex);
+            updateRealtimeScore(); // Update real-time score after selecting an answer
+        }
+
+        function showAnswer(selectedIndex) {
+            const question = questions[currentQuestion];
+            const options = document.querySelectorAll('.option');
+            const feedback = document.getElementById('feedback');
+            
+            // Mark correct and incorrect answers
+            options.forEach((option, index) => {
+                option.classList.add('disabled');
+                if (index === question.correct) {
+                    option.classList.add('correct');
+                } else if (index === selectedIndex && index !== question.correct) {
+                    option.classList.add('incorrect');
+                }
+                if (index === selectedIndex) {
+                    option.classList.add('selected');
+                }
+            });
+
+            // Show feedback
+            const isCorrect = selectedIndex === question.correct;
+            feedback.style.display = 'block';
+            feedback.className = `feedback ${isCorrect ? 'correct' : 'incorrect'}`;
+            feedback.innerHTML = isCorrect ?
+                `<b>✔ That's right!</b><br>The correct answer is <b>${question.options[question.correct]}</b>.` :
+                `<b>✖ Incorrect.</b><br>The correct answer is <b>${question.options[question.correct]}</b>.`;
+        }
+
+        function nextQuestion() {
+            if (currentQuestion < questions.length - 1) {
+                currentQuestion++;
+                loadQuestion();
+                updateProgress();
+                updateNavButtons();
+            } else {
+                showResults();
+            }
+        }
+
+        function previousQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                loadQuestion();
+                updateProgress();
+                updateNavButtons();
+            }
+        }
+
+        function updateProgress() {
+            const progress = ((currentQuestion + 1) / questions.length) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+            document.getElementById('quizProgress').textContent = `Question ${currentQuestion + 1}/${questions.length}`;
+        }
+
+        function updateNavButtons() {
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            
+            prevBtn.disabled = currentQuestion === 0;
+            
+            if (currentQuestion === questions.length - 1) {
+                nextBtn.textContent = 'Done';
+                nextBtn.removeEventListener('click', nextQuestion);
+                nextBtn.addEventListener('click', showResults);
+            } else {
+                nextBtn.textContent = 'Next';
+                nextBtn.removeEventListener('click', showResults);
+                nextBtn.addEventListener('click', nextQuestion);
+            }
+        }
+
+        function updateRealtimeScore() {
+            let currentScore = 0;
+            questions.forEach((question, index) => {
+                if (userAnswers[index] === question.correct) {
+                    currentScore++;
+                }
+            });
+            const answered = userAnswers.filter(ans => ans !== undefined).length;
+            const percent = answered > 0 ? Math.round((currentScore / answered) * 100) : 0;
+            document.getElementById('scoreRealtime').textContent = `Score: ${currentScore}/${answered} (${percent}%)`;
+        }
+
+        function calculateScore() {
+            score = 0;
+            
+            // Reset category scores
+            Object.keys(categoryScores).forEach(category => {
+                categoryScores[category] = { correct: 0, total: 0 };
+            });
+
+            questions.forEach((question, index) => {
+                const category = question.category;
+                categoryScores[category].total++;
+                
+                if (userAnswers[index] === question.correct) {
+                    score++;
+                    categoryScores[category].correct++;
+                }
+            });
+        }
+
+        function showResults() {
+            calculateScore();
+            
+            const percentage = Math.round((score / questions.length) * 100);
+            const resultsDiv = document.getElementById('results');
+            const scoreDiv = document.getElementById('finalScore');
+            const messageDiv = document.getElementById('scoreMessage');
+            const breakdownDiv = document.getElementById('categoryBreakdown');
+            
+            scoreDiv.textContent = `${score}/${questions.length} (${percentage}%)`;
+            
+            let message = '';
+            if (percentage >= 90) {
+                message = '🏆 Excellent! You are a Kannada superstar!';
+            } else if (percentage >= 75) {
+                message = '🌟 Great job! You know your Kannada well!';
+            } else if (percentage >= 60) {
+                message = '👍 Good work! Keep practicing!';
+            } else {
+                message = '📚 Keep studying! You\'ll improve with practice!';
+            }
+            messageDiv.textContent = message;
+            
+            // Show category breakdown
+            breakdownDiv.innerHTML = Object.entries(categoryScores).map(([category, scores]) => `
+                <div class="category-score">
+                    <h3>${category}</h3>
+                    <p>${scores.correct}/${scores.total} (${Math.round((scores.correct/scores.total)*100)}%)</p>
+                </div>
+            `).join('');
+            
+            // Hide quiz container and show results
+            document.getElementById('quizMain').style.display = 'none';
+            resultsDiv.style.display = 'block';
+        }
+
+        function restartQuiz() {
+            currentQuestion = 0;
+            userAnswers = [];
+            score = 0;
+            
+            document.getElementById('quizMain').style.display = 'block';
+            document.getElementById('results').style.display = 'none';
+            
+            initializeQuiz();
+        }
+
+        // Initialize the quiz when the page loads
+        document.addEventListener('DOMContentLoaded', initializeQuiz);
+    </script>
+</body>
+</html>
